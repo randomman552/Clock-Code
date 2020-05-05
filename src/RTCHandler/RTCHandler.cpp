@@ -8,8 +8,9 @@ RTCHandler::RTCHandler()
 }
 
 /*
-    Sets time on the RTC to the given time (time must be 24 hour format).
-    Accounts for british daylight savings time.
+* Sets time on the RTC to the given time (time must be 24 hour format). 
+* Accounts for british daylight savings time.
+* time (DateTime) - The time to set to.
 */
 void RTCHandler::SetTime(DateTime time)
 {
@@ -17,7 +18,10 @@ void RTCHandler::SetTime(DateTime time)
 }
 
 /*
-This function formats the time according to daylight savings and 12 hour mode
+* Format the given time according to daylight savings and 12 hour mode.
+* time (DateTime) - The time to format.
+* twelveHour (bool) - Whether the time should be converted to twelve hour time or not.
+* return (DateTime) - The updated DateTime object.
 */
 DateTime RTCHandler::FormatTime(DateTime time, bool twelveHour)
 {
@@ -73,7 +77,9 @@ DateTime RTCHandler::FormatTime(DateTime time, bool twelveHour)
 }
 
 /*
-Function to get current time, accounts for daylight savings time and 12 hour mode
+* Function to get current time, accounts for daylight savings time and 12 hour mode.
+* twelveHour (bool) - Whether the time should be converted to twelve hour time or not.
+* return (DateTime) - The current time.
 */
 DateTime RTCHandler::getTime(bool twelveHour)
 {
@@ -87,7 +93,8 @@ DateTime RTCHandler::getTime(bool twelveHour)
 }
 
 /*
-Function to get current time, accounts for daylight savings time
+* Function to get current time, accounts for daylight savings time.
+* return (DateTime) - The current time.
 */
 DateTime RTCHandler::getTime()
 {
@@ -95,7 +102,8 @@ DateTime RTCHandler::getTime()
 }
 
 /*
-isAM returns true for AM times and false for PM times.
+* Check whether current time is AM or PM.
+* return (bool) - True if currently AM.
 */
 bool RTCHandler::isAM()
 {
@@ -108,9 +116,9 @@ bool RTCHandler::isAM()
 }
 
 /*
-Overload of isDaylightSavings(time).
-Returns true if the time is currently in daylight savings.
-Otherwise returns false.
+* Overload of isDaylightSavings(time).
+* Returns true if the time is currently in daylight savings otherwise returns false.
+* return (bool) - True if in daylight savings time.
 */
 bool RTCHandler::isDaylightSavings()
 {
@@ -118,9 +126,9 @@ bool RTCHandler::isDaylightSavings()
 }
 
 /*
-Returns true if the time is currently in daylight savings.
-Otherwise returns false.
-param time - A datetime to check
+* Returns true if the time is currently in daylight savings otherwise returns false.
+* param time - The time to check
+* return (bool) - True if in daylight savings time.
 */
 bool RTCHandler::isDaylightSavings(DateTime time)
 {
