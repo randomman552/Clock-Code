@@ -13,7 +13,6 @@ private:
 
 public:
     //Attributes
-    String dayofWeek[7] = {"sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"};
     int dayinMonth[12] = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
     //Constructors
