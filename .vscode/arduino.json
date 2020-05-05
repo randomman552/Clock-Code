@@ -2,5 +2,5 @@
     "programmer": "AVR ISP",
     "board": "arduino:avr:nano",
     "configuration": "cpu=atmega328old",
-    "sketch": "Clock_Code.ino"
+    "sketch": "Clock-Code.ino"
 }
