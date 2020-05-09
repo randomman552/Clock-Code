@@ -154,7 +154,7 @@ void SevenSegHandler::displayTime(DateTime time, char format[])
 
 void SevenSegHandler::clear()
 {
-    _lc.clearDisplay();
+    _lc.clearDisplay(0);
 }
 
 #pragma endregion

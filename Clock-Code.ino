@@ -3,9 +3,8 @@
 #include "src/LEDStripController/LEDStripController.h"
 
 //TODO: Implement EEPROMStore
-//TODO: Implement Buzzer
-//TODO: Implement AlarmController
 //TODO: Implement BTNHandler
+//TODO: Implement AlarmController
 
 RTCHandler RTC;
 SevenSegHandler SevenSeg(12, 11, 10, 8);
@@ -18,6 +17,9 @@ SevenSegHandler SevenSeg(12, 11, 10, 8);
 CRGB leds[NUM_LEDS];
 LEDStripHandler LEDStrip;
 
+//Buzzer Setup
+#define BUZZER 13
+
 void setup()
 {
     //Initalise Serial
@@ -25,12 +27,16 @@ void setup()
     Serial.println("Hello there!");
     SevenSeg.print("Helo");
 
+    //Initalise LED Strip Controller
     FastLED.addLeds<LED_TYPE, DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS);
-    LEDStripHandler temp(leds, NUM_LEDS, 32, 0, 1000, CRGB(255, 255, 255));
+    LEDStripHandler temp(leds, NUM_LEDS);
     LEDStrip = temp;
 
-    //Debug delay
-    delay(3000);
+    //Initalise Buzzer
+    pinMode(BUZZER, OUTPUT);
+
+    //Have a delay so the greeting message can be seen.
+    delay(1000);
 }
 
 void loop()
@@ -40,4 +46,6 @@ void loop()
 
     SevenSeg.displayTime(time, "{hour}.{min}");
     LEDStrip.LEDfx();
+
+    //tone(BUZZER, 31, 1000);
 }
