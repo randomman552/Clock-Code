@@ -2,6 +2,11 @@
 #include "src/SevenSegHandler/SevenSegHandler.h"
 #include "src/LEDStripController/LEDStripController.h"
 
+//TODO: Implement EEPROMStore
+//TODO: Implement Buzzer
+//TODO: Implement AlarmController
+//TODO: Implement BTNHandler
+
 RTCHandler RTC;
 SevenSegHandler SevenSeg(12, 11, 10, 8);
 
@@ -21,7 +26,8 @@ void setup()
     SevenSeg.print("Helo");
 
     FastLED.addLeds<LED_TYPE, DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS);
-    LEDStripHandler LEDStrip(leds);
+    LEDStripHandler temp(leds, NUM_LEDS, 32, 0, 1000, CRGB(255, 255, 255));
+    LEDStrip = temp;
 
     //Debug delay
     delay(3000);
@@ -33,11 +39,5 @@ void loop()
     Serial.println("Got time.");
 
     SevenSeg.displayTime(time, "{hour}.{min}");
-    delay(1000);
-
-    SevenSeg.displayTime(time, "{day}.{month}");
-    delay(1000);
-
-    SevenSeg.displayTime(time, "20{year}.");
-    delay(1000);
+    LEDStrip.LEDfx();
 }
