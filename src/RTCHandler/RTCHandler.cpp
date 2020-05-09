@@ -89,7 +89,7 @@ DateTime RTCHandler::getTime(bool twelveHour)
     //Format the time
     now = FormatTime(now, twelveHour);
 
-    return DateTime();
+    return now;
 }
 
 /*
