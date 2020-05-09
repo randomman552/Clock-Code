@@ -1,15 +1,7 @@
 #include "SevenSegHandler.h"
 
 #pragma region Constructors
-/*
-* The constructor instantiates the LEDControl object with the required variables passed through, 
-and sets the default brightness.
-* dataPin (int) - The pin connected to the MAX7219 data line.
-* clkPin (int) - The pin connected to the MAX7219 clock line.
-* loadPin (int) - The pin connected to the MAX7219 load line.
-* deviceNum (int) - The number of MAX7219 devices linked together.
-* brightness (int) - The brightness to start the MAX7219 at (between 0 and 15).
-*/
+
 SevenSegHandler::SevenSegHandler(int dataPin, int clkPin, int loadPin, int brightness)
     //Intantiate the LEDControl object
     : _lc(dataPin, clkPin, loadPin, 1)
@@ -19,26 +11,21 @@ SevenSegHandler::SevenSegHandler(int dataPin, int clkPin, int loadPin, int brigh
 
     setBrightness(brightness);
 }
+
 #pragma endregion
 
 #pragma region Setters and Getters
-/* 
-* Set the brightness of the seven segment display 
-* Brightness (int) - The brightness to set the display to (0-15).
-*/
+
 void SevenSegHandler::setBrightness(int brightness)
 {
     _brightness = brightness;
     _lc.setIntensity(0, _brightness);
 }
+
 #pragma endregion
 
 #pragma region Display methods
-/*
-* Function to print a string to the seven segment display, 
-if the given string is longer than the display, it will be scrolled across the display.
-* toPrint (String) - The string to print.
-*/
+
 void SevenSegHandler::print(char toPrint[])
 {
     //TODO: Need to update this implementation,
@@ -46,10 +33,6 @@ void SevenSegHandler::print(char toPrint[])
     Serial.print("Printing '");
     Serial.print(toPrint);
     Serial.println("' to seven seg.");
-
-    //Clear the display
-    _lc.clearDisplay(0);
-
     int digit = 0;
 
     //Print each character and determine dot states
@@ -75,11 +58,15 @@ void SevenSegHandler::print(char toPrint[])
     }
 }
 
-/* 
-* Function to display the given DateTime object on the seven segment display.
-* time (DateTime) - The time to display.
-* mode (String) - The format to display. e.g. "{hour}:{minute}" would display 01:00 if it was 1 o'clock.
-*/
+void SevenSegHandler::print(char toPrint[], bool doClear)
+{
+    if (doClear)
+    {
+        clear();
+    }
+    print(toPrint);
+}
+
 void SevenSegHandler::displayTime(DateTime time, char format[])
 {
     Serial.println(format);
@@ -164,14 +151,16 @@ void SevenSegHandler::displayTime(DateTime time, char format[])
     }
     print(toPrint);
 }
+
+void SevenSegHandler::clear()
+{
+    _lc.clearDisplay();
+}
+
 #pragma endregion
 
 #pragma region Misc methods
-/*
-* This function ensures that the time given to it as a string is given to 2 digit presision.
-* toFormat (String) - The string to format
-* return (String) - The string with a guarenteed 2 digits
-*/
+
 String SevenSegHandler::_digitFormatter(String toFormat)
 {
     if (toFormat.length() < 2)
@@ -180,4 +169,5 @@ String SevenSegHandler::_digitFormatter(String toFormat)
     }
     return toFormat;
 }
+
 #pragma endregion

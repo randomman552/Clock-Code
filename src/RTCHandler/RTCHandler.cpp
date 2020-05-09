@@ -2,30 +2,21 @@
 #include "RTCHandler.h"
 
 #pragma region Constructors
-//RTCHandler Constructor
+
 RTCHandler::RTCHandler()
 {
     _rtc.begin();
 }
+
 #pragma endregion
 
 #pragma region DateTime related functions
-/*
-* Sets time on the RTC to the given time (time must be 24 hour format). 
-* Accounts for british daylight savings time.
-* time (DateTime) - The time to set to.
-*/
+
 void RTCHandler::SetTime(DateTime time)
 {
     _rtc.adjust(time);
 }
 
-/*
-* Format the given time according to daylight savings and 12 hour mode.
-* time (DateTime) - The time to format.
-* twelveHour (bool) - Whether the time should be converted to twelve hour time or not.
-* return (DateTime) - The updated DateTime object.
-*/
 DateTime RTCHandler::FormatTime(DateTime time, bool twelveHour)
 {
     //Get all the variables to handle wrap around for
@@ -79,11 +70,6 @@ DateTime RTCHandler::FormatTime(DateTime time, bool twelveHour)
     return DateTime(year, month, day, hour, time.minute(), time.second());
 }
 
-/*
-* Function to get current time, accounts for daylight savings time and 12 hour mode.
-* twelveHour (bool) - Whether the time should be converted to twelve hour time or not.
-* return (DateTime) - The current time.
-*/
 DateTime RTCHandler::getTime(bool twelveHour)
 {
     //Get the current date and time in a DateTime object
@@ -95,19 +81,11 @@ DateTime RTCHandler::getTime(bool twelveHour)
     return now;
 }
 
-/*
-* Function to get current time, accounts for daylight savings time.
-* return (DateTime) - The current time.
-*/
 DateTime RTCHandler::getTime()
 {
     return getTime(false);
 }
 
-/*
-* Check whether current time is AM or PM.
-* return (bool) - True if currently AM.
-*/
 bool RTCHandler::isAM()
 {
     DateTime time = getTime();
@@ -118,21 +96,11 @@ bool RTCHandler::isAM()
     return true;
 }
 
-/*
-* Overload of isDaylightSavings(time).
-* Returns true if the time is currently in daylight savings otherwise returns false.
-* return (bool) - True if in daylight savings time.
-*/
 bool RTCHandler::isDaylightSavings()
 {
     return isDaylightSavings(getTime());
 }
 
-/*
-* Returns true if the time is currently in daylight savings otherwise returns false.
-* param time - The time to check
-* return (bool) - True if in daylight savings time.
-*/
 bool RTCHandler::isDaylightSavings(DateTime time)
 {
     if (time.month() > 3 && time.month() < 10)
