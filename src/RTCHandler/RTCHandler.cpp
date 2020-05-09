@@ -1,12 +1,15 @@
 #include <Arduino.h>
 #include "RTCHandler.h"
 
+#pragma region Constructors
 //RTCHandler Constructor
 RTCHandler::RTCHandler()
 {
     _rtc.begin();
 }
+#pragma endregion
 
+#pragma region DateTime related functions
 /*
 * Sets time on the RTC to the given time (time must be 24 hour format). 
 * Accounts for british daylight savings time.
@@ -138,3 +141,4 @@ bool RTCHandler::isDaylightSavings(DateTime time)
     }
     return false;
 }
+#pragma endregion

@@ -1,5 +1,6 @@
 #include "SevenSegHandler.h"
 
+#pragma region Constructors
 /*
 * The constructor instantiates the LEDControl object with the required variables passed through, 
 and sets the default brightness.
@@ -18,7 +19,9 @@ SevenSegHandler::SevenSegHandler(int dataPin, int clkPin, int loadPin, int brigh
 
     setBrightness(brightness);
 }
+#pragma endregion
 
+#pragma region Setters and Getters
 /* 
 * Set the brightness of the seven segment display 
 * Brightness (int) - The brightness to set the display to (0-15).
@@ -28,7 +31,9 @@ void SevenSegHandler::setBrightness(int brightness)
     _brightness = brightness;
     _lc.setIntensity(0, _brightness);
 }
+#pragma endregion
 
+#pragma region Display methods
 /*
 * Function to print a string to the seven segment display, 
 if the given string is longer than the display, it will be scrolled across the display.
@@ -159,7 +164,9 @@ void SevenSegHandler::displayTime(DateTime time, char format[])
     }
     print(toPrint);
 }
+#pragma endregion
 
+#pragma region Misc methods
 /*
 * This function ensures that the time given to it as a string is given to 2 digit presision.
 * toFormat (String) - The string to format
@@ -173,3 +180,4 @@ String SevenSegHandler::_digitFormatter(String toFormat)
     }
     return toFormat;
 }
+#pragma endregion
