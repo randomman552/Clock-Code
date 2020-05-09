@@ -20,16 +20,17 @@ private:
 
     //Functions
     String _digitFormatter(String toFormat);
+    int *_subString(char string[], int start, int end);
 
 public:
     //Constructors
-    SevenSegHandler(int data_pin, int clk_pin, int load_pin, int max_num, int brightness);
+    SevenSegHandler(int data_pin, int clk_pin, int load_pin, int brightness);
 
     //Functions
     void
     setBrightness(int newBrightness);
-    void print(String toPrint);
-    void displayTime(DateTime time, String format);
+    void print(char toPrint[]);
+    void displayTime(DateTime time, char format[]);
 };
 
 #endif
