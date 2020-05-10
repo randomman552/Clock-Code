@@ -1,5 +1,7 @@
 #include "SevenSegHandler.h"
 
+#define MAX_BRIGHTNESS 15.0F
+
 #pragma region Constructors
 
 SevenSegHandler::SevenSegHandler(int dataPin, int clkPin, int loadPin, int brightness)
@@ -18,7 +20,7 @@ SevenSegHandler::SevenSegHandler(int dataPin, int clkPin, int loadPin, int brigh
 
 void SevenSegHandler::setBrightness(int brightness)
 {
-    _brightness = brightness;
+    _brightness = (int)(MAX_BRIGHTNESS * ((float)brightness / 100));
     _lc.setIntensity(0, _brightness);
 }
 
@@ -30,9 +32,6 @@ void SevenSegHandler::print(char toPrint[])
 {
     //TODO: Need to update this implementation,
     // currently won't do characters like lower case t
-    Serial.print("Printing '");
-    Serial.print(toPrint);
-    Serial.println("' to seven seg.");
     int digit = 0;
 
     //Print each character and determine dot states
@@ -69,7 +68,6 @@ void SevenSegHandler::print(char toPrint[], bool doClear)
 
 void SevenSegHandler::displayTime(DateTime time, char format[])
 {
-    Serial.println(format);
     //Define char string, give it a length equal to the maximum possible string generated the format string
     char toPrint[5] = {0};
 
@@ -171,3 +169,6 @@ String SevenSegHandler::_digitFormatter(String toFormat)
 }
 
 #pragma endregion
+
+//Undefine MAX_BRIGHTNESS so it doesn't interfere with other code
+#undef MAX_BRIGHTNESS

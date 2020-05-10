@@ -45,7 +45,7 @@ public:
     * numLEDs (int) - The number of LEDs.
     * Other attributes (brightness etc) will be given default values.
     */
-    LEDStripHandler(CRGB leds[], int numLEDs);
+    LEDStripHandler(CRGB leds[], int numLEDs) : LEDStripHandler(leds, numLEDs, 100, 0, 1000, CRGB(255, 255, 255)){};
 
     /* 
     * Empty constructor used to create the object before initalising it.

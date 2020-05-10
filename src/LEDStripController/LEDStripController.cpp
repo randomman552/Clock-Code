@@ -1,23 +1,20 @@
 #include <Arduino.h>
 #include "LEDStripController.h"
 
+#define MAX_BRIGHTNESS 64.0F
+
 #pragma region constructors
 
 //TODO: Update the constructors to use templates, similar to how it is done in the default FastLED library.
 LEDStripHandler::LEDStripHandler(CRGB leds[], int numLEDs, int brightness, int effect, int delay, CRGB color)
 {
-    LEDStripHandler();
+    FastLED.setMaxPowerInVoltsAndMilliamps(5, 1500);
     _leds = leds;
     _numLEDs = numLEDs;
     setBrightness(brightness);
     setDelay(delay);
     setRGB(color);
     setEffect(effect);
-}
-
-LEDStripHandler::LEDStripHandler(CRGB leds[], int numLEDs)
-{
-    LEDStripHandler(leds, numLEDs, 32, 0, 1000, CRGB(255, 255, 255));
 }
 
 LEDStripHandler::LEDStripHandler()
@@ -40,7 +37,7 @@ int LEDStripHandler::getEffect()
 
 void LEDStripHandler::setBrightness(uint8_t brightness)
 {
-    _brightness = brightness;
+    _brightness = (int)(MAX_BRIGHTNESS * ((float)brightness / 100));
     FastLED.setBrightness(_brightness);
 }
 
@@ -88,3 +85,6 @@ void LEDStripHandler::_solidFill(CRGB color)
     FastLED.show();
 }
 #pragma endregion
+
+//Undefine MAX_BRIGHTNESS so it doesn't interfere with other code
+#undef MAX_BRIGHTNESS
