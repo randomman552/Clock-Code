@@ -3,8 +3,6 @@
 #include "src/LEDStripController/LEDStripController.h"
 #include "src/EEPROMStore/EEPROMStore.h"
 
-//TODO: Implement EEPROMStore
-//TODO: Implement BTNHandler
 //TODO: Implement AlarmController
 
 RTCHandler RTC;
@@ -20,6 +18,9 @@ LEDStripHandler LEDStrip;
 
 //Buzzer Setup
 #define BUZZER 13
+
+//Button handler is imported here so that it can use the variables from this file.
+#include "src/BTNHandler/BTNHandler.h"
 
 void setup()
 {
@@ -45,6 +46,9 @@ void setup()
 
     //Initalise Buzzer
     pinMode(BUZZER, OUTPUT);
+
+    //Initalise PCINT
+    PCINT_setup();
 
     //Have a delay so the greeting message can be seen.
     delay(1000);
