@@ -29,26 +29,29 @@ void setup()
     Serial.println("Hello there!");
     SevenSeg.print("Helo");
 
-    //Get values stored in EEPROM
-    uint8_t effect = EEPROM.read(EFFECT_STORE);
-    uint8_t red = EEPROM.read(RED_STORE);
-    uint8_t green = EEPROM.read(GREEN_STORE);
-    uint8_t blue = EEPROM.read(BLUE_STORE);
-    uint8_t brightness = EEPROM.read(BRIGHTNESS_STORE);
-
-    //Apply brightness to Seven Seg
-    SevenSeg.setBrightness(brightness);
-
     //Initalise LED Strip Controller
     FastLED.addLeds<LED_TYPE, DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS);
-    LEDStripHandler temp(leds, NUM_LEDS, brightness, effect, 1000, CRGB(red, green, blue));
-    LEDStrip = temp;
+    LEDStrip.init(leds, NUM_LEDS);
 
     //Initalise Buzzer
     pinMode(BUZZER, OUTPUT);
 
     //Initalise PCINT
     PCINT_setup();
+
+    //Get values stored in EEPROM
+    uint8_t effect = 12; //EEPROM.read(EFFECT_STORE);
+    uint8_t red = EEPROM.read(RED_STORE);
+    uint8_t green = EEPROM.read(GREEN_STORE);
+    uint8_t blue = EEPROM.read(BLUE_STORE);
+    uint8_t brightness = EEPROM.read(BRIGHTNESS_STORE);
+
+    //Apply saved settings
+    SevenSeg.setBrightness(brightness);
+    LEDStrip.setBrightness(brightness);
+    LEDStrip.setEffect(effect);
+    LEDStrip.setDelay(2000);
+    LEDStrip.setRGB(red, green, blue);
 
     //Have a delay so the greeting message can be seen.
     delay(1000);

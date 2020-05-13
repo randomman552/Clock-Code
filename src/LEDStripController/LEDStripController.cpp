@@ -1,33 +1,42 @@
 #include <Arduino.h>
 #include "LEDStripController.h"
+#include "LEDEffects.h"
 
 #define MAX_BRIGHTNESS 64.0F
+#define MAX_EFFECT 12
+
+#pragma region init function
+
+void LEDStripHandler::init(CRGB *leds, int numLEDs)
+{
+    _leds = leds;
+    _numLEDs = numLEDs;
+}
+
+#pragma endregion
 
 #pragma region constructors
 
-//TODO: Update the constructors to use templates, similar to how it is done in the default FastLED library.
-LEDStripHandler::LEDStripHandler(CRGB leds[], int numLEDs, int brightness, int effect, int delay, CRGB color)
+LEDStripHandler::LEDStripHandler(int brightness, int effect, int delay, CRGB color)
 {
     FastLED.setMaxPowerInVoltsAndMilliamps(5, 1500);
-    _leds = leds;
-    _numLEDs = numLEDs;
     setBrightness(brightness);
     setDelay(delay);
     setRGB(color);
     setEffect(effect);
 }
 
-LEDStripHandler::LEDStripHandler()
-{
-    FastLED.setMaxPowerInVoltsAndMilliamps(5, 1500);
-}
 #pragma endregion
 
 #pragma region Setters and Getters
 
 void LEDStripHandler::setEffect(int effect)
 {
-    _effect = effect;
+    //Check if new effect number is in the valid range
+    if (effect >= 0 && effect <= MAX_EFFECT)
+    {
+        _effect = effect;
+    }
 }
 
 int LEDStripHandler::getEffect()
@@ -56,35 +65,73 @@ void LEDStripHandler::setDelay(int delay)
 {
     _delay = delay;
 }
+
 #pragma endregion
 
 #pragma region LED comamnds
 
 void LEDStripHandler::LEDfx()
 {
-    switch (_effect)
+    //If the brightness is set, display an effect
+    if (_brightness != 0)
     {
-    case 0:
-        _solidFill(_color);
+        switch (_effect)
+        {
+        //Solid color effects
+        case 0:
+            LEDEffects::solidFill(_color, _leds, _numLEDs, _delay);
+            break;
+        case 1:
+            LEDEffects::solidFade(_color, _leds, _numLEDs, _delay);
+            break;
+        case 2:
+            LEDEffects::solidFillEmpty(_color, _leds, _numLEDs, _delay);
+            break;
+        case 3:
+            LEDEffects::solidBounce(_color, _leds, _numLEDs, _delay);
+            break;
+        //Random effects
+        case 4:
+            LEDEffects::randomFill(_leds, _numLEDs, _delay);
+            break;
+        case 5:
+            LEDEffects::randomSingleFill(_leds, _numLEDs, _delay);
+            break;
+        case 6:
+            LEDEffects::randomFade(_leds, _numLEDs, _delay);
+            break;
+        case 7:
+            LEDEffects::randomFillEmpty(_leds, _numLEDs, _delay);
+            break;
+        case 8:
+            LEDEffects::randomBounce(_leds, _numLEDs, _delay);
+            break;
+        //Rainbow effects
+        case 9:
+            LEDEffects::rainbowFill(_leds, _numLEDs, _delay);
+            break;
+        case 10:
+            LEDEffects::rainbowShift(_leds, _numLEDs, _delay);
+            break;
+        case 11:
+            LEDEffects::rainbowFillEmpty(_leds, _numLEDs, _delay);
+            break;
+        case 12:
+            LEDEffects::rainbowSingleShift(_leds, _numLEDs, _delay);
+            break;
+        default:
+            break;
+        }
+    }
+    //Otherwise, delay for the required period of time.
+    else
+    {
         delay(_delay);
-        break;
-    default:
-        break;
     }
 }
 
-void LEDStripHandler::_clear()
-{
-    CRGB color(0, 0, 0);
-    _solidFill(color);
-}
-
-void LEDStripHandler::_solidFill(CRGB color)
-{
-    fill_solid(_leds, _numLEDs, color);
-    FastLED.show();
-}
 #pragma endregion
 
 //Undefine MAX_BRIGHTNESS so it doesn't interfere with other code
 #undef MAX_BRIGHTNESS
+#undef MAX_EFFECT

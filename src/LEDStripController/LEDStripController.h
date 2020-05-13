@@ -16,18 +16,6 @@ private:
     int _delay;
     CRGB _color;
 
-    //LED effect functions
-    /*
-    * Clear the LED Strip
-    */
-    void _clear();
-
-    /*
-    * Fill the LED Strip with the given color.
-    * color (CRGB) - The color to set to.
-    */
-    void _solidFill(CRGB color);
-
 public:
     //Constructors
     /* 
@@ -38,20 +26,19 @@ public:
     * delay (int) - The default duration of an LED effect (in ms).
     * color (CRGB) - The default custom color.
     */
-    LEDStripHandler(CRGB leds[], int numLEDs, int brightness, int effect, int delay, CRGB color);
+    LEDStripHandler(int brightness, int effect, int delay, CRGB color);
 
     /*
-    * leds (CRGB[]) - The created list of LEDs to work on.
-    * numLEDs (int) - The number of LEDs.
-    * Other attributes (brightness etc) will be given default values.
+    * Initalises the LEDStrip with default values.
     */
-    LEDStripHandler(CRGB leds[], int numLEDs) : LEDStripHandler(leds, numLEDs, 100, 0, 1000, CRGB(255, 255, 255)){};
+    LEDStripHandler() : LEDStripHandler(100, 0, 1000, CRGB(255, 255, 255)){};
 
-    /* 
-    * Empty constructor used to create the object before initalising it.
-    * This just sets the maximum power draw.
+    /*
+    * Init function.
+    * leds (CRGB[]) - The leds to assign to the controller.
+    * numLEDs (int) - The number of leds.
     */
-    LEDStripHandler();
+    void init(CRGB leds[], int numLEDs);
 
     //Setters
     /*
