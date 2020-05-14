@@ -51,8 +51,9 @@ int LEDStripHandler::getMaxEffect()
 
 void LEDStripHandler::setBrightness(uint8_t brightness)
 {
-    _brightness = (int)(MAX_BRIGHTNESS * ((float)brightness / 100));
-    FastLED.setBrightness(_brightness);
+    _brightness = brightness;
+    int newValue = (int)(MAX_BRIGHTNESS * ((float)brightness / 100));
+    FastLED.setBrightness(newValue);
 }
 
 int LEDStripHandler::getBrightness()
@@ -128,6 +129,21 @@ void LEDStripHandler::LEDfx()
         break;
     default:
         break;
+    }
+}
+
+void LEDStripHandler::toggle()
+{
+    uint8_t brightness = FastLED.getBrightness();
+    //If the LED strip is already set to a brightness of 0, re-enable it
+    if (brightness == 0)
+    {
+        FastLED.setBrightness(_brightness);
+    }
+    //Otherwise set the brightness to 0.
+    else
+    {
+        FastLED.setBrightness(0);
     }
 }
 

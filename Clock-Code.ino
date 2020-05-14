@@ -2,11 +2,16 @@
 #include "src/SevenSegHandler/SevenSegHandler.h"
 #include "src/LEDStripController/LEDStripController.h"
 #include "src/EEPROMStore/EEPROMStore.h"
+#include "src/AlarmController/AlarmController.h"
 
-//TODO: Implement AlarmController
+//Buzzer Setup
+#define BUZZER 13
 
+//Create our required objects
 RTCHandler RTC;
 SevenSegHandler SevenSeg(12, 11, 10, 0);
+AlarmController Alarm(BUZZER, 5);
+LEDStripHandler LEDStrip;
 
 //LED Strip Setup
 #define DATA_PIN 9
@@ -14,10 +19,6 @@ SevenSegHandler SevenSeg(12, 11, 10, 0);
 #define COLOR_ORDER GRB
 #define NUM_LEDS 34
 CRGB leds[NUM_LEDS];
-LEDStripHandler LEDStrip;
-
-//Buzzer Setup
-#define BUZZER 13
 
 //Button handler is imported here so that it can use the variables from this file.
 #include "src/BTNHandler/BTNHandler.h"
@@ -52,6 +53,7 @@ void setup()
     LEDStrip.setEffect(effect);
     LEDStrip.setDelay(2000);
     LEDStrip.setRGB(red, green, blue);
+    Alarm.setAlarmTime(2, 30);
 
     //Have a delay so the greeting message can be seen.
     delay(1000);
@@ -60,10 +62,11 @@ void setup()
 void loop()
 {
     DateTime time = RTC.getTime(true);
-    Serial.println("Got time.");
 
     SevenSeg.displayTime(time, "{hour}.{min}");
     LEDStrip.LEDfx();
 
     updateEEPROMStore(LEDStrip.getEffect(), LEDStrip.color, LEDStrip.getBrightness());
+
+    Alarm.checkAlarm(time.hour(), time.minute());
 }

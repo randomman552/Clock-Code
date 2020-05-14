@@ -47,7 +47,6 @@ void SevenSegHandler::print(char toPrint[])
             //This sets the bit for the current digit for dotStates.
             //Add 0.5 to prevent integer truncation being a problem
             dotState += pow(2, 8 - (digit + 1)) + 0.5;
-            Serial.println(dotState);
             i++;
         }
 

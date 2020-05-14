@@ -103,6 +103,13 @@ public:
     * Any effect will block for the given delay time (set with the setDelay method).
     */
     void LEDfx();
+
+    /*
+    * Toggle the current state of the LEDStrip.
+    * Will disable the LED strip if the brightness is higher than 0.
+    * Will set the LED strip back to the correct brightness otherwise.
+    */
+    void toggle();
 };
 
 #endif

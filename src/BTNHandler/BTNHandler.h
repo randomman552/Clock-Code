@@ -40,7 +40,6 @@ void btnAction()
     bool btn2 = digitalRead(BTN2);
     bool btn3 = digitalRead(BTN3);
     bool btn4 = digitalRead(BTN4);
-    Serial.println((String)btn1 + " " + (String)btn2 + " " + (String)btn3 + " " + (String)btn4);
 
     //Disable interupts while this function runs
     PCICR = B00000000;
@@ -69,26 +68,38 @@ void btnAction()
         }
         else if (btn1)
         {
-            //If the clock is already in low power mode disable it, otherwise enable it
+            /* Toggle low power mode */
+            uint8_t brightness = EEPROM.read(BRIGHTNESS_STORE);
+            //If the clock is already in low power mode disable it, otherwise enable it.
             if (lowPowerMode)
             {
-                uint8_t brightness = EEPROM.read(BRIGHTNESS_STORE);
                 SevenSeg.setBrightness(brightness);
-                LEDStrip.setBrightness(brightness);
-                lowPowerMode = !lowPowerMode;
                 SevenSeg.print("l-on");
             }
             else
             {
-                SevenSeg.setBrightness(70);
-                LEDStrip.setBrightness(0);
-                lowPowerMode = !lowPowerMode;
+                //Set seven segment display brightness to 50% of what it is normally.
+                SevenSeg.setBrightness(brightness / 2);
                 SevenSeg.print("loff");
             }
+            //Toggle LEDStrip.
+            LEDStrip.toggle();
+
+            //Flip lowPowerMode state.
+            lowPowerMode = !lowPowerMode;
         }
         else if (btn2)
         {
-            /* ALARM OFF */
+            /* Toggle the alarm */
+            if (Alarm.isEnabled())
+            {
+                SevenSeg.print("aoff");
+            }
+            else
+            {
+                SevenSeg.print("a-on");
+            }
+            Alarm.toggle();
         }
         else if (btn3)
         {
