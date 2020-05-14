@@ -80,6 +80,12 @@ public:
     */
     int getEffect();
 
+    /*
+    * Get the maximum effect value.
+    * return (int) - The maximum effect value.
+    */
+    int getMaxEffect();
+
     //LED effect functions
     /*
     * Displays the currently selected effect on the LED strip.

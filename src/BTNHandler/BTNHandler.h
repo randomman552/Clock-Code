@@ -76,12 +76,14 @@ void btnAction()
                 SevenSeg.setBrightness(brightness);
                 LEDStrip.setBrightness(brightness);
                 lowPowerMode = !lowPowerMode;
+                SevenSeg.print("l-on");
             }
             else
             {
                 SevenSeg.setBrightness(70);
                 LEDStrip.setBrightness(0);
                 lowPowerMode = !lowPowerMode;
+                SevenSeg.print("loff");
             }
         }
         else if (btn2)
@@ -90,11 +92,29 @@ void btnAction()
         }
         else if (btn3)
         {
-            /* LED EFFECT UP */
+            /*Increase the effect on the LED strip by 1, 
+            then modulus by the max effect + 1 to wrap it around to 0 if above the max value.*/
+            LEDStrip.setEffect((LEDStrip.getEffect() + 1) % (LEDStrip.getMaxEffect() + 1));
+
+            //Show feedback to the user
+            SevenSeg.print("ledu");
         }
         else if (btn4)
         {
-            /* LED EFFECT DOWN */
+            /*Decrease the effect on the LED strip by 1, if it is below zero, set to the max effect.
+            The C implementation doesn't wrap negative numbers around like it might in other languages.*/
+            int effect = LEDStrip.getEffect();
+            effect--;
+            if (effect < 0)
+            {
+                effect = LEDStrip.getMaxEffect();
+            }
+
+            //Apply new effect value
+            LEDStrip.setEffect(effect);
+
+            //Show feedback to the user
+            SevenSeg.print("led-");
         }
     }
 

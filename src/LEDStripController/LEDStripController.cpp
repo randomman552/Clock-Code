@@ -44,6 +44,11 @@ int LEDStripHandler::getEffect()
     return _effect;
 }
 
+int LEDStripHandler::getMaxEffect()
+{
+    return MAX_EFFECT;
+}
+
 void LEDStripHandler::setBrightness(uint8_t brightness)
 {
     _brightness = (int)(MAX_BRIGHTNESS * ((float)brightness / 100));

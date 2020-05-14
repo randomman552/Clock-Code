@@ -40,7 +40,7 @@ void setup()
     PCINT_setup();
 
     //Get values stored in EEPROM
-    uint8_t effect = 12; //EEPROM.read(EFFECT_STORE);
+    uint8_t effect = EEPROM.read(EFFECT_STORE);
     uint8_t red = EEPROM.read(RED_STORE);
     uint8_t green = EEPROM.read(GREEN_STORE);
     uint8_t blue = EEPROM.read(BLUE_STORE);
