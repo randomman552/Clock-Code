@@ -46,6 +46,8 @@ void setup()
     uint8_t green = EEPROM.read(GREEN_STORE);
     uint8_t blue = EEPROM.read(BLUE_STORE);
     uint8_t brightness = EEPROM.read(BRIGHTNESS_STORE);
+    uint8_t alarmHour = EEPROM.read(ALARM_HOUR_STORE);
+    uint8_t alarmMinute = EEPROM.read(ALARM_MINUTE_STORE);
 
     //Apply saved settings
     SevenSeg.setBrightness(brightness);
@@ -53,7 +55,7 @@ void setup()
     LEDStrip.setEffect(effect);
     LEDStrip.setDelay(2000);
     LEDStrip.setRGB(red, green, blue);
-    Alarm.setAlarmTime(2, 30);
+    Alarm.setAlarmTime(alarmHour, alarmMinute);
 
     //Have a delay so the greeting message can be seen.
     delay(1000);
@@ -61,12 +63,13 @@ void setup()
 
 void loop()
 {
-    DateTime time = RTC.getTime(true);
+    DateTime time24h = RTC.getTime();
+    DateTime time12h = RTC.FormatTime(time24h, true);
 
-    SevenSeg.displayTime(time, "{hour}.{min}");
+    SevenSeg.displayTime(time12h, "{hour}.{min}");
     LEDStrip.LEDfx();
 
     updateEEPROMStore(LEDStrip.getEffect(), LEDStrip.color, LEDStrip.getBrightness());
 
-    Alarm.checkAlarm(time.hour(), time.minute());
+    Alarm.checkAlarm(time24h.hour(), time24h.minute());
 }
