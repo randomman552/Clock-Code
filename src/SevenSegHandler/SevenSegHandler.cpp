@@ -1,7 +1,6 @@
 #include "SevenSegHandler.h"
 
 #define MAX_BRIGHTNESS 15.0F
-
 #pragma region Constructors
 
 SevenSegHandler::SevenSegHandler(int dataPin, int clkPin, int loadPin, int brightness)
@@ -30,31 +29,37 @@ void SevenSegHandler::setBrightness(int brightness)
 
 void SevenSegHandler::print(char toPrint[])
 {
-    //TODO: Need to update this implementation,
-    // currently won't do characters like lower case t
     int digit = 0;
-
+    byte dotState = B00000000;
     //Print each character and determine dot states
     for (int i = 0; i < strlen(toPrint); i++)
     {
         //If the next character is a dot, toggle the dotstate of the device
         char nextChar = toPrint[(i + 1) % strlen(toPrint)];
-        bool dotState = false;
-        if (nextChar == '.' || nextChar == ':')
-        {
-            dotState = true;
-        }
 
         //Display character
-        _lc.setChar(0, digit, toPrint[i], dotState);
-        digit++;
+        byte toDisplay = pgm_read_byte_near(allCharTable + toPrint[i]);
+        _lc.setRow(0, digit, toDisplay);
 
         //If there was a dot, skip the next character
-        if (dotState)
+        if (nextChar == '.' || nextChar == ':' || nextChar == ',' || nextChar == ';')
         {
+            //This sets the bit for the current digit for dotStates.
+            //Add 0.5 to prevent integer truncation being a problem
+            dotState += pow(2, 8 - (digit + 1)) + 0.5;
+            Serial.println(dotState);
             i++;
         }
+
+        //As we are only using 1 MAX7219 chip, we can only display 8 digits before we need to break.
+        if (digit > 8)
+        {
+            break;
+        }
+
+        digit++;
     }
+    _lc.setColumn(0, 0, dotState);
 }
 
 void SevenSegHandler::print(char toPrint[], bool doClear)
@@ -69,7 +74,7 @@ void SevenSegHandler::print(char toPrint[], bool doClear)
 void SevenSegHandler::displayTime(DateTime time, char format[])
 {
     //Define char string, give it a length equal to the maximum possible string generated the format string
-    char toPrint[5] = {0};
+    char toPrint[9] = {0};
 
     //Find the position of a { and the corresponding }, the value between is the formatting info.
     for (int i = 0; i < strlen(format); i++)
@@ -82,7 +87,7 @@ void SevenSegHandler::displayTime(DateTime time, char format[])
                 if (format[j] == '}')
                 {
                     //Get the substring
-                    char temp[j - i];
+                    char temp[j - i] = {0};
                     strncpy(temp, format + i + 1, j - i - 1);
                     temp[j - i - 1] = '\0';
 
@@ -130,6 +135,18 @@ void SevenSegHandler::displayTime(DateTime time, char format[])
                         String year = (String)time.year();
                         year.toCharArray(digitBuf, 3, 2);
                         strcat(toPrint, digitBuf);
+                    }
+                    else if (strcmp(temp, "dow") == 0)
+                    {
+                        char buffer[10] = {0};
+                        strcpy_P(buffer, (char *)pgm_read_word(&(dayofWeek[time.dayOfTheWeek() - 1])));
+                        strncat(toPrint, buffer, 3);
+                    }
+                    else if (strcmp(temp, "smonth") == 0)
+                    {
+                        char buffer[10] = {0};
+                        strcpy_P(buffer, (char *)pgm_read_word(&(monthofYear[time.month() - 1])));
+                        strncat(toPrint, buffer, 3);
                     }
 
                     //Update i (to skip over the chars in the string) and break.
