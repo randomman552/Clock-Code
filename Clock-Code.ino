@@ -65,5 +65,5 @@ void loop()
     SevenSeg.displayTime(time, "{hour}.{min}");
     LEDStrip.LEDfx();
 
-    //tone(BUZZER, 31, 1000);
+    updateEEPROMStore(LEDStrip.getEffect(), LEDStrip.color, LEDStrip.getBrightness());
 }

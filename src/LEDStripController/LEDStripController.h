@@ -14,9 +14,14 @@ private:
     int _brightness;
     int _effect;
     int _delay;
-    CRGB _color;
 
 public:
+    //Attributes
+    /*
+    * The custom color used by the LEDStrip handler.
+    */
+    CRGB color;
+
     //Constructors
     /* 
     * leds (CRGB[]) - The created list of LEDs to work on.
@@ -85,6 +90,12 @@ public:
     * return (int) - The maximum effect value.
     */
     int getMaxEffect();
+
+    /*
+    * Get the current brightness level
+    * return (int) - The current brightness level
+    */
+    int getBrightness();
 
     //LED effect functions
     /*

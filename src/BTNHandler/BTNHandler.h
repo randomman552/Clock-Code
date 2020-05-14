@@ -97,7 +97,7 @@ void btnAction()
             LEDStrip.setEffect((LEDStrip.getEffect() + 1) % (LEDStrip.getMaxEffect() + 1));
 
             //Show feedback to the user
-            SevenSeg.print("ledu");
+            SevenSeg.print("led+");
         }
         else if (btn4)
         {

@@ -55,15 +55,20 @@ void LEDStripHandler::setBrightness(uint8_t brightness)
     FastLED.setBrightness(_brightness);
 }
 
+int LEDStripHandler::getBrightness()
+{
+    return _brightness;
+}
+
 void LEDStripHandler::setRGB(uint8_t red, uint8_t green, uint8_t blue)
 {
     CRGB color(red, green, blue);
     setRGB(color);
 }
 
-void LEDStripHandler::setRGB(CRGB color)
+void LEDStripHandler::setRGB(CRGB newColor)
 {
-    _color = color;
+    color = newColor;
 }
 
 void LEDStripHandler::setDelay(int delay)
@@ -77,61 +82,52 @@ void LEDStripHandler::setDelay(int delay)
 
 void LEDStripHandler::LEDfx()
 {
-    //If the brightness is set, display an effect
-    if (_brightness != 0)
+    switch (_effect)
     {
-        switch (_effect)
-        {
-        //Solid color effects
-        case 0:
-            LEDEffects::solidFill(_color, _leds, _numLEDs, _delay);
-            break;
-        case 1:
-            LEDEffects::solidFade(_color, _leds, _numLEDs, _delay);
-            break;
-        case 2:
-            LEDEffects::solidFillEmpty(_color, _leds, _numLEDs, _delay);
-            break;
-        case 3:
-            LEDEffects::solidBounce(_color, _leds, _numLEDs, _delay);
-            break;
-        //Random effects
-        case 4:
-            LEDEffects::randomFill(_leds, _numLEDs, _delay);
-            break;
-        case 5:
-            LEDEffects::randomSingleFill(_leds, _numLEDs, _delay);
-            break;
-        case 6:
-            LEDEffects::randomFade(_leds, _numLEDs, _delay);
-            break;
-        case 7:
-            LEDEffects::randomFillEmpty(_leds, _numLEDs, _delay);
-            break;
-        case 8:
-            LEDEffects::randomBounce(_leds, _numLEDs, _delay);
-            break;
-        //Rainbow effects
-        case 9:
-            LEDEffects::rainbowFill(_leds, _numLEDs, _delay);
-            break;
-        case 10:
-            LEDEffects::rainbowShift(_leds, _numLEDs, _delay);
-            break;
-        case 11:
-            LEDEffects::rainbowFillEmpty(_leds, _numLEDs, _delay);
-            break;
-        case 12:
-            LEDEffects::rainbowSingleShift(_leds, _numLEDs, _delay);
-            break;
-        default:
-            break;
-        }
-    }
-    //Otherwise, delay for the required period of time.
-    else
-    {
-        delay(_delay);
+    //Solid color effects
+    case 0:
+        LEDEffects::solidFill(color, _leds, _numLEDs, _delay);
+        break;
+    case 1:
+        LEDEffects::solidFade(color, _leds, _numLEDs, _delay);
+        break;
+    case 2:
+        LEDEffects::solidFillEmpty(color, _leds, _numLEDs, _delay);
+        break;
+    case 3:
+        LEDEffects::solidBounce(color, _leds, _numLEDs, _delay);
+        break;
+    //Random effects
+    case 4:
+        LEDEffects::randomFill(_leds, _numLEDs, _delay);
+        break;
+    case 5:
+        LEDEffects::randomSingleFill(_leds, _numLEDs, _delay);
+        break;
+    case 6:
+        LEDEffects::randomFade(_leds, _numLEDs, _delay);
+        break;
+    case 7:
+        LEDEffects::randomFillEmpty(_leds, _numLEDs, _delay);
+        break;
+    case 8:
+        LEDEffects::randomBounce(_leds, _numLEDs, _delay);
+        break;
+    //Rainbow effects
+    case 9:
+        LEDEffects::rainbowFill(_leds, _numLEDs, _delay);
+        break;
+    case 10:
+        LEDEffects::rainbowShift(_leds, _numLEDs, _delay);
+        break;
+    case 11:
+        LEDEffects::rainbowFillEmpty(_leds, _numLEDs, _delay);
+        break;
+    case 12:
+        LEDEffects::rainbowSingleShift(_leds, _numLEDs, _delay);
+        break;
+    default:
+        break;
     }
 }
 
