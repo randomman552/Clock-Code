@@ -1,3 +1,4 @@
+#include "src/millisDelay.h"
 #include "src/RTCHandler/RTCHandler.h"
 #include "src/SevenSegHandler/SevenSegHandler.h"
 #include "src/LEDStripController/LEDStripController.h"
@@ -58,18 +59,41 @@ void setup()
     Alarm.setAlarmTime(alarmHour, alarmMinute);
 
     //Have a delay so the greeting message can be seen.
-    delay(1000);
+    millisDelay(1000);
 }
 
 void loop()
 {
-    DateTime time24h = RTC.getTime();
-    DateTime time12h = RTC.FormatTime(time24h, true);
+    for (int i = 1; i <= 100; i++)
+    {
+        DateTime time24h = RTC.getTime();
+        DateTime time12h = RTC.FormatTime(time24h, true);
 
-    SevenSeg.displayTime(time12h, "{hour}.{min}");
-    LEDStrip.LEDfx();
+        //Every 10th loop, we display the month and day
+        if (i % 10 == 0)
+        {
+            SevenSeg.displayTime(time12h, "{day}:{month}");
+        }
+        //On the next loop, display the year
+        else if ((i % 10) - 1 == 0)
+        {
+            SevenSeg.displayTime(time12h, "20{year}.");
+        }
+        else
+        {
+            //Display time normally
+            SevenSeg.displayTime(time12h, "{hour}:{min}");
+        }
 
+        //Show the LEDEffect
+        LEDStrip.LEDfx();
+
+        //Check the alarm.
+        Alarm.checkAlarm(time24h.hour(), time24h.minute());
+        btnAction();
+    }
+
+    //Only update the EEPROM every 100 loops.
     updateEEPROMStore(LEDStrip.getEffect(), LEDStrip.color, LEDStrip.getBrightness());
-
-    Alarm.checkAlarm(time24h.hour(), time24h.minute());
+    updateAlarmTime(Alarm.getAlarmHour(), Alarm.getAlarmMinute());
 }
