@@ -66,6 +66,16 @@ public:
     * Get the state of the alarm (true if enabled, false otherwise).
     */
     bool isEnabled();
+
+    /*
+    * Get the value of the alarm hour
+    */
+    int getAlarmHour();
+
+    /*
+    * Get the value of the alarm minute
+    */
+    int getAlarmMinute();
 };
 
 #endif

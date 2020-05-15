@@ -24,6 +24,16 @@ bool AlarmController::isEnabled()
     return _active;
 }
 
+int AlarmController::getAlarmHour()
+{
+    return _hour;
+}
+
+int AlarmController::getAlarmMinute()
+{
+    return _minute;
+}
+
 #pragma endregion
 
 #pragma region alarm functions
