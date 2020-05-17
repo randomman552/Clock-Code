@@ -4,6 +4,7 @@
 #include "src/LEDStripController/LEDStripController.h"
 #include "src/EEPROMStore/EEPROMStore.h"
 #include "src/AlarmController/AlarmController.h"
+#include "src/BTNHandler/BTNHandler.h"
 
 //Buzzer Setup
 #define BUZZER 13
@@ -13,6 +14,7 @@ RTCHandler RTC;
 SevenSegHandler SevenSeg(12, 11, 10, 0);
 AlarmController Alarm(BUZZER, 5);
 LEDStripHandler LEDStrip;
+BTNHandler BTNS(RTC, SevenSeg, Alarm, LEDStrip, BUZZER);
 
 //LED Strip Setup
 #define DATA_PIN 9
@@ -20,9 +22,6 @@ LEDStripHandler LEDStrip;
 #define COLOR_ORDER GRB
 #define NUM_LEDS 34
 CRGB leds[NUM_LEDS];
-
-//Button handler is imported here so that it can use the variables from this file.
-#include "src/BTNHandler/BTNHandler.h"
 
 void setup()
 {
@@ -37,9 +36,6 @@ void setup()
 
     //Initalise Buzzer
     pinMode(BUZZER, OUTPUT);
-
-    //Initalise PCINT
-    PCINT_setup();
 
     //Get values stored in EEPROM
     uint8_t effect = EEPROM.read(EFFECT_STORE);
@@ -60,6 +56,17 @@ void setup()
 
     //Have a delay so the greeting message can be seen.
     millisDelay(1000);
+}
+
+//Attach the interupt method
+ISR(PCINT0_vect)
+{
+    BTNS.interruptAction();
+}
+
+ISR(PCINT2_vect)
+{
+    BTNS.interruptAction();
 }
 
 void loop()
@@ -90,7 +97,7 @@ void loop()
 
         //Check the alarm.
         Alarm.checkAlarm(time24h.hour(), time24h.minute());
-        btnAction();
+        BTNS.btnAction();
     }
 
     //Only update the EEPROM every 100 loops.

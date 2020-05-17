@@ -102,6 +102,11 @@ public:
     */
     SevenSegHandler(int data_pin, int clk_pin, int load_pin, int brightness);
 
+    /*
+    * Initalises the handler with the default parameters.
+    */
+    SevenSegHandler() : SevenSegHandler(12, 11, 10, 0) {}
+
     //Setters
     /* 
     * Set the brightness of the seven segment display 
@@ -111,9 +116,8 @@ public:
 
     //Display methods
     /*
-    * Method to print a string to the seven segment display, 
-    if the given string is longer than the display, it will be scrolled across the display.
-    * This will not clear the display, use the "clear" method to do that.
+    * Method to print a string to the seven segment display.
+    * This will not clear the display, use the "clear" method to do that or call the overloaded version of this method.
     * toPrint (char[]) - The string to print.
     */
     void print(char toPrint[]);

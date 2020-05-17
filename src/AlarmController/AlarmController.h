@@ -1,5 +1,5 @@
 #ifndef AlarmController_h
-#define AlarmContoller_h
+#define AlarmController_h
 
 #include <Arduino.h>
 
@@ -30,11 +30,16 @@ public:
     AlarmController(unsigned const int activePin, unsigned const int gracePeriod, unsigned const int alarmHour, unsigned const int alarmMinute);
 
     /*
-    * Initalise the alarmController.
+    * Initalise the alarm controller.
     * activePin (unsigned int) - The pin to activate when triggered.
     * Defaults to 7 AM.
     */
     AlarmController(unsigned const int activePin, unsigned const int gracePeriod) : AlarmController(activePin, gracePeriod, 7, 0){};
+
+    /*
+    * Initalise the alarm controller
+    */
+    AlarmController() : AlarmController(13, 0) {}
 
     /*
     * Change the current alarm time.
