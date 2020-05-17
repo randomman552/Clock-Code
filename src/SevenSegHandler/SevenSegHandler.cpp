@@ -90,43 +90,7 @@ void SevenSegHandler::displayTime(DateTime time, char format[])
                     strncpy(temp, format + i + 1, j - i - 1);
                     temp[j - i - 1] = '\0';
 
-                    //Digit buffer, can only store a maximum of 2 digits (for year).
-                    char digitBuf[3] = {48, 48, 0};
-
-                    if (strcmp(temp, "min") == 0 || strcmp(temp, "minute") == 0)
-                    {
-                        //Get the formatted digit, and copy it into the digit buffer
-                        _digitFormatter(time.minute(), digitBuf);
-
-                        //Add it to toPrint
-                        strcat(toPrint, digitBuf);
-                    }
-                    else if (strcmp(temp, "hour") == 0)
-                    {
-                        _digitFormatter(time.hour(), digitBuf);
-                        strcat(toPrint, digitBuf);
-                    }
-                    else if (strcmp(temp, "sec") == 0 || strcmp(temp, "second") == 0)
-                    {
-                        _digitFormatter(time.second(), digitBuf);
-                        strcat(toPrint, digitBuf);
-                    }
-                    else if (strcmp(temp, "day") == 0)
-                    {
-                        _digitFormatter(time.day(), digitBuf);
-                        strcat(toPrint, digitBuf);
-                    }
-                    else if (strcmp(temp, "month") == 0)
-                    {
-                        _digitFormatter(time.month(), digitBuf);
-                        strcat(toPrint, digitBuf);
-                    }
-                    else if (strcmp(temp, "year") == 0)
-                    {
-                        _digitFormatter(time.year() - 2000, digitBuf);
-                        strcat(toPrint, digitBuf);
-                    }
-                    else if (strcmp(temp, "dow") == 0)
+                    if (strcmp(temp, "dow") == 0)
                     {
                         char buffer[10] = {0};
                         strcpy_P(buffer, (char *)pgm_read_word(&(dayofWeek[time.dayOfTheWeek() - 1])));
@@ -137,6 +101,38 @@ void SevenSegHandler::displayTime(DateTime time, char format[])
                         char buffer[10] = {0};
                         strcpy_P(buffer, (char *)pgm_read_word(&(monthofYear[time.month() - 1])));
                         strncat(toPrint, buffer, 3);
+                    }
+                    else
+                    {
+                        //Digit buffer, can only store a maximum of 2 digits (for year).
+                        char digitBuf[3] = {0};
+                        if (strcmp(temp, "min") == 0 || strcmp(temp, "minute") == 0)
+                        {
+                            //Get the formatted digit, and copy it into the digit buffer
+                            _digitFormatter(time.minute(), digitBuf);
+                        }
+                        else if (strcmp(temp, "hour") == 0)
+                        {
+                            _digitFormatter(time.hour(), digitBuf);
+                        }
+                        else if (strcmp(temp, "sec") == 0 || strcmp(temp, "second") == 0)
+                        {
+                            _digitFormatter(time.second(), digitBuf);
+                        }
+                        else if (strcmp(temp, "day") == 0)
+                        {
+                            _digitFormatter(time.day(), digitBuf);
+                        }
+                        else if (strcmp(temp, "month") == 0)
+                        {
+                            _digitFormatter(time.month(), digitBuf);
+                        }
+                        else if (strcmp(temp, "year") == 0)
+                        {
+                            _digitFormatter(time.year() - 2000, digitBuf);
+                        }
+                        //Add it to toPrint
+                        strcat(toPrint, digitBuf);
                     }
 
                     //Update i (to skip over the chars in the string) and break.
@@ -170,6 +166,7 @@ char *SevenSegHandler::_digitFormatter(int toFormat, char *dest)
 {
     if (toFormat < 10)
     {
+        strcpy(dest, "0");
         itoa(toFormat, dest + 1, 10);
     }
     else
