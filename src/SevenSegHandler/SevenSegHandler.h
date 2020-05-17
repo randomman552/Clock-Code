@@ -83,11 +83,12 @@ private:
 
     //Functions
     /*
-    * This function ensures that the time given to it as a string is given to 2 digit presision.
-    * toFormat (String) - The string to format
-    * return (String) - The string with a guarenteed 2 digits
+    * This function ensures that the integer given to it has 2 digits.
+    * toFormat (int) - The integer to turn into a string.
+    * dest (char*) - Where to store the resulting string.
+    * return (char*) - Pointer to the destination array.
     */
-    String _digitFormatter(String toFormat);
+    char *_digitFormatter(int toFormat, char *dest);
 
 public:
     //Constructors

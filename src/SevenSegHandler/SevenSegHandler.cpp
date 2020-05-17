@@ -90,49 +90,40 @@ void SevenSegHandler::displayTime(DateTime time, char format[])
                     strncpy(temp, format + i + 1, j - i - 1);
                     temp[j - i - 1] = '\0';
 
-                    //Digit buffer
-                    char digitBuf[3] = {0};
+                    //Digit buffer, can only store a maximum of 2 digits (for year).
+                    char digitBuf[3] = {48, 48, 0};
 
-                    //TODO: Probably a better way of doing this
                     if (strcmp(temp, "min") == 0 || strcmp(temp, "minute") == 0)
                     {
-                        //Get minute as a string
-                        String minute = _digitFormatter((String)time.minute());
-
-                        //Convert to char array
-                        minute.toCharArray(digitBuf, 3);
+                        //Get the formatted digit, and copy it into the digit buffer
+                        _digitFormatter(time.minute(), digitBuf);
 
                         //Add it to toPrint
                         strcat(toPrint, digitBuf);
                     }
                     else if (strcmp(temp, "hour") == 0)
                     {
-                        String hour = _digitFormatter((String)time.hour());
-                        hour.toCharArray(digitBuf, 3);
+                        _digitFormatter(time.hour(), digitBuf);
                         strcat(toPrint, digitBuf);
                     }
                     else if (strcmp(temp, "sec") == 0 || strcmp(temp, "second") == 0)
                     {
-                        String second = _digitFormatter((String)time.second());
-                        second.toCharArray(digitBuf, 3);
+                        _digitFormatter(time.second(), digitBuf);
                         strcat(toPrint, digitBuf);
                     }
                     else if (strcmp(temp, "day") == 0)
                     {
-                        String day = _digitFormatter((String)time.day());
-                        day.toCharArray(digitBuf, 3);
+                        _digitFormatter(time.day(), digitBuf);
                         strcat(toPrint, digitBuf);
                     }
                     else if (strcmp(temp, "month") == 0)
                     {
-                        String month = _digitFormatter((String)time.month());
-                        month.toCharArray(digitBuf, 3);
+                        _digitFormatter(time.month(), digitBuf);
                         strcat(toPrint, digitBuf);
                     }
                     else if (strcmp(temp, "year") == 0)
                     {
-                        String year = (String)time.year();
-                        year.toCharArray(digitBuf, 3, 2);
+                        _digitFormatter(time.year() - 2000, digitBuf);
                         strcat(toPrint, digitBuf);
                     }
                     else if (strcmp(temp, "dow") == 0)
@@ -175,13 +166,18 @@ void SevenSegHandler::clear()
 
 #pragma region Misc methods
 
-String SevenSegHandler::_digitFormatter(String toFormat)
+char *SevenSegHandler::_digitFormatter(int toFormat, char *dest)
 {
-    if (toFormat.length() < 2)
+    if (toFormat < 10)
     {
-        toFormat = "0" + toFormat;
+        itoa(toFormat, dest + 1, 10);
     }
-    return toFormat;
+    else
+    {
+        itoa(toFormat, dest, 10);
+    }
+
+    return dest;
 }
 
 #pragma endregion
