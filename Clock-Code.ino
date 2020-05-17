@@ -25,9 +25,10 @@ CRGB leds[NUM_LEDS];
 
 void setup()
 {
-    //Initalise Serial
-    Serial.begin(9600);
-    Serial.println("Hello there!");
+    //Initalise Serial, uncomment if debugging neded
+    //Serial.begin(9600);
+    //Serial.println("Hello there!");
+
     SevenSeg.print("Helo");
 
     //Initalise LED Strip Controller
