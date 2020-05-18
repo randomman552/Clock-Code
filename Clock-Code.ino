@@ -59,7 +59,7 @@ void setup()
     millisDelay(1000);
 }
 
-//Attach the interupt method
+//Attach the interrupt method
 ISR(PCINT0_vect)
 {
     BTNS.interruptAction();

@@ -155,21 +155,24 @@ void BTNHandler::interruptAction()
         if (digitalRead(BTN1) == HIGH)
         {
             _btnStates[0] = true;
+            digitalWrite(_feedbackPin, HIGH);
         }
         if (digitalRead(BTN2) == HIGH)
         {
             _btnStates[1] = true;
+            digitalWrite(_feedbackPin, HIGH);
         }
         if (digitalRead(BTN3) == HIGH)
         {
             _btnStates[2] = true;
+            digitalWrite(_feedbackPin, HIGH);
         }
         if (digitalRead(BTN4) == HIGH)
         {
             _btnStates[3] = true;
+            digitalWrite(_feedbackPin, HIGH);
         }
         //Play feedback
-        digitalWrite(_feedbackPin, HIGH);
         delayMicroseconds(1000);
         digitalWrite(_feedbackPin, LOW);
         delayMicroseconds(1000);
