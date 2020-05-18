@@ -57,7 +57,7 @@ public:
     * max (int) - The maximum value it can be set to.
     * return (int) - The new value.
     */
-    int changeInt(int startValue, int min, int max);
+    int changeInt(const int startValue, int min, int max);
 
     //Disable pin change interrupts
     void disableInterrupts();

@@ -11,9 +11,9 @@ class LEDStripHandler
 private:
     CRGB *_leds;
     int _numLEDs;
-    int _brightness;
+    uint8_t _brightness;
     int _effect;
-    int _delay;
+    long _delay;
     volatile bool _enabled = true;
 
 public:
@@ -32,7 +32,7 @@ public:
     * delay (int) - The default duration of an LED effect (in ms).
     * color (CRGB) - The default custom color.
     */
-    LEDStripHandler(int brightness, int effect, int delay, CRGB color);
+    LEDStripHandler(const uint8_t brightness, const int effect, const long delay, const CRGB color);
 
     /*
     * Initalises the LEDStrip with default values.
@@ -44,7 +44,7 @@ public:
     * leds (CRGB[]) - The leds to assign to the controller.
     * numLEDs (int) - The number of leds.
     */
-    void init(CRGB leds[], int numLEDs);
+    void init(CRGB leds[], const int numLEDs);
 
     //Setters
     /*
@@ -53,31 +53,31 @@ public:
     * green (uint8) - The new value for green.
     * blue (uint8) - The new value for blue.
     */
-    void setRGB(uint8_t red, uint8_t green, uint8_t blue);
+    void setRGB(const uint8_t red, const uint8_t green, const uint8_t blue);
 
     /*
     * Update the custom color.
-    * color (CRGB) - The new color.
+    * newColor (CRGB) - The new color.
     */
-    void setRGB(CRGB color);
+    void setRGB(const CRGB newColor);
 
     /*
     * Update the effect in use on the LED Strip.
     * effect (int) - The new value.
     */
-    void setEffect(int effect);
+    void setEffect(const int effect);
 
     /*
     * Update the brightness value.
     * brightness (int) - THe new value.
     */
-    void setBrightness(uint8_t brightness);
+    void setBrightness(const uint8_t brightness);
 
     /*
     * Update the delay (period of time any given LEDfx will take).
-    * delay (int) - The new delay value (in milliseconds).
+    * delay (long) - The new delay value (in milliseconds).
     */
-    void setDelay(int delay);
+    void setDelay(const long delay);
 
     //Getters
     /*

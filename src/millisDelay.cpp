@@ -1,6 +1,6 @@
 #include "millisDelay.h"
 
-extern void millisDelay(long duration)
+extern void millisDelay(const long duration)
 {
     long startTime = millis();
 

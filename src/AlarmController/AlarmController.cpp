@@ -2,7 +2,7 @@
 
 #pragma region constructors
 
-AlarmController::AlarmController(unsigned const int activePin, unsigned const int gracePeriod, unsigned const int alarmHour, unsigned const int alarmMinute)
+AlarmController::AlarmController(const uint8_t activePin, const uint8_t alarmHour, const uint8_t alarmMinute)
 {
     _pin = activePin;
     _hour = alarmHour;
@@ -13,7 +13,7 @@ AlarmController::AlarmController(unsigned const int activePin, unsigned const in
 
 #pragma region setters and getters
 
-void AlarmController::setAlarmTime(unsigned const int alarmHour, unsigned const int alarmMinute)
+void AlarmController::setAlarmTime(const uint8_t alarmHour, const uint8_t alarmMinute)
 {
     _hour = alarmHour;
     _minute = alarmMinute;
@@ -38,7 +38,7 @@ int AlarmController::getAlarmMinute()
 
 #pragma region alarm functions
 
-bool AlarmController::checkAlarm(unsigned const int curHour, unsigned const int curMinute)
+bool AlarmController::checkAlarm(const uint8_t curHour, const uint8_t curMinute)
 {
     if (_active)
     {

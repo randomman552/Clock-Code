@@ -3,7 +3,7 @@
 #define MAX_BRIGHTNESS 15.0F
 #pragma region Constructors
 
-SevenSegHandler::SevenSegHandler(int dataPin, int clkPin, int loadPin, int brightness)
+SevenSegHandler::SevenSegHandler(const int dataPin, const int clkPin, const int loadPin, const int brightness)
     //Intantiate the LEDControl object
     : _lc(dataPin, clkPin, loadPin, 1)
 {
@@ -17,7 +17,7 @@ SevenSegHandler::SevenSegHandler(int dataPin, int clkPin, int loadPin, int brigh
 
 #pragma region Setters and Getters
 
-void SevenSegHandler::setBrightness(int brightness)
+void SevenSegHandler::setBrightness(const int brightness)
 {
     _brightness = (int)(MAX_BRIGHTNESS * ((float)brightness / 100));
     _lc.setIntensity(0, _brightness);
@@ -27,7 +27,7 @@ void SevenSegHandler::setBrightness(int brightness)
 
 #pragma region Display methods
 
-void SevenSegHandler::print(char toPrint[])
+void SevenSegHandler::print(const char toPrint[])
 {
     int digit = 0;
     byte dotState = B00000000;
@@ -61,7 +61,7 @@ void SevenSegHandler::print(char toPrint[])
     _lc.setColumn(0, 0, dotState);
 }
 
-void SevenSegHandler::print(char toPrint[], bool doClear)
+void SevenSegHandler::print(const char toPrint[], const bool doClear)
 {
     if (doClear)
     {
@@ -70,7 +70,7 @@ void SevenSegHandler::print(char toPrint[], bool doClear)
     print(toPrint);
 }
 
-void SevenSegHandler::displayTime(DateTime time, char format[])
+void SevenSegHandler::displayTime(const DateTime time, const char format[])
 {
     //Define char string, give it a length equal to the maximum possible string generated the format string
     char toPrint[9] = {0};
@@ -162,7 +162,7 @@ void SevenSegHandler::clear()
 
 #pragma region Misc methods
 
-char *SevenSegHandler::_digitFormatter(int toFormat, char *dest)
+char *SevenSegHandler::_digitFormatter(const int toFormat, char *dest)
 {
     if (toFormat < 10)
     {

@@ -88,7 +88,7 @@ private:
     * dest (char*) - Where to store the resulting string.
     * return (char*) - Pointer to the destination array.
     */
-    char *_digitFormatter(int toFormat, char *dest);
+    char *_digitFormatter(const int toFormat, char *dest);
 
 public:
     //Constructors
@@ -101,7 +101,7 @@ public:
     * deviceNum (int) - The number of MAX7219 devices linked together.
     * brightness (int) - The brightness to start the MAX7219 at (between 0 and 15).
     */
-    SevenSegHandler(int data_pin, int clk_pin, int load_pin, int brightness);
+    SevenSegHandler(const int data_pin, const int clk_pin, const int load_pin, const int brightness);
 
     /*
     * Initalises the handler with the default parameters.
@@ -113,7 +113,7 @@ public:
     * Set the brightness of the seven segment display 
     * Brightness (int) - The brightness to set the display to (0-15).
     */
-    void setBrightness(int newBrightness);
+    void setBrightness(const int newBrightness);
 
     //Display methods
     /*
@@ -121,21 +121,21 @@ public:
     * This will not clear the display, use the "clear" method to do that or call the overloaded version of this method.
     * toPrint (char[]) - The string to print.
     */
-    void print(char toPrint[]);
+    void print(const char toPrint[]);
 
     /* 
     * Overload of normal print method.
     * toPrint (char[]) - The string to print.
     * doClear (bool) - True will clear the display, then print.
     */
-    void print(char toPrint[], bool doClear);
+    void print(const char toPrint[], const bool doClear);
 
     /* 
     * Function to display the given DateTime object on the seven segment display.
     * time (DateTime) - The time to display.
     * mode (String) - The format to display. e.g. "{hour}:{minute}" would display 01:00 if it was 1 o'clock.
     */
-    void displayTime(DateTime time, char format[]);
+    void displayTime(const DateTime time, const char format[]);
 
     /*
     * Clear the display.

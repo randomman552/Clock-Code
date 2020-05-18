@@ -11,49 +11,47 @@ when it matches the internal alarm time the activePin given when instansiating t
 class AlarmController
 {
 private:
-    unsigned int _hour;
-    unsigned int _minute;
-    //The last minute the alarm was triggered.
-    unsigned int _lastActivation;
+    uint8_t _hour;
+    uint8_t _minute;
     //The pin to activate when alarm triggers.
-    unsigned int _pin;
+    uint8_t _pin;
     //Toggle boolean
     bool _active = true;
 
 public:
     /*
     * Initalise the alarmController.
-    * activePin (unsigned int) - The pin to activate when triggered.
-    * alarmHour (unsigned int) - The hour at which the alarm should trigger.
-    * alarmMinute (unsigned int) - The minute at which the alarm should trigger in that hour.
+    * activePin (uint8_t) - The pin to activate when triggered.
+    * alarmHour (uint8_t) - The hour at which the alarm should trigger.
+    * alarmMinute (uint8_t) - The minute at which the alarm should trigger in that hour.
     */
-    AlarmController(unsigned const int activePin, unsigned const int gracePeriod, unsigned const int alarmHour, unsigned const int alarmMinute);
+    AlarmController(const uint8_t activePin, const uint8_t alarmHour, const uint8_t alarmMinute);
 
     /*
     * Initalise the alarm controller.
     * activePin (unsigned int) - The pin to activate when triggered.
     * Defaults to 7 AM.
     */
-    AlarmController(unsigned const int activePin, unsigned const int gracePeriod) : AlarmController(activePin, gracePeriod, 7, 0){};
+    AlarmController(const uint8_t activePin) : AlarmController(activePin, 7, 0){};
 
     /*
     * Initalise the alarm controller
     */
-    AlarmController() : AlarmController(13, 0) {}
+    AlarmController() : AlarmController(13) {}
 
     /*
     * Change the current alarm time.
     * alarmHour (unsigned int) - The hour at which the alarm should trigger.
     * alarmMinute (unsigned int) - The minute at which the alarm should trigger in that hour.
     */
-    void setAlarmTime(unsigned const int alarmHour, unsigned const int alarmMinute);
+    void setAlarmTime(const uint8_t alarmHour, const uint8_t alarmMinute);
 
     /*
     * Check if the alarm needs to go off and trigger the activePin if it does, this function will also return true.
     * curHour (unsigned int) - The hour to check against.
     * curMinute (unsigned int) - The minute to check against.
     */
-    bool checkAlarm(unsigned int const curHour, unsigned int const curMinute);
+    bool checkAlarm(const uint8_t curHour, const uint8_t curMinute);
 
     /*
     * This method is called when the alarm check passes. 

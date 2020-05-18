@@ -22,7 +22,7 @@ void RTCHandler::SetTime(DateTime time)
     _rtc.adjust(time);
 }
 
-DateTime RTCHandler::FormatTime(DateTime time, bool twelveHour)
+DateTime RTCHandler::FormatTime(DateTime time, const bool twelveHour)
 {
     //Transform them according to the current month (daylight savings in Britain)
     if (isDaylightSavings(time))
@@ -44,7 +44,7 @@ DateTime RTCHandler::FormatTime(DateTime time, bool twelveHour)
     return time;
 }
 
-DateTime RTCHandler::getTime(bool twelveHour)
+DateTime RTCHandler::getTime(const bool twelveHour)
 {
     //Get the current date and time in a DateTime object
     DateTime now = _rtc.now();
@@ -75,7 +75,7 @@ bool RTCHandler::isDaylightSavings()
     return isDaylightSavings(getTime());
 }
 
-bool RTCHandler::isDaylightSavings(DateTime time)
+bool RTCHandler::isDaylightSavings(const DateTime time)
 {
     if (time.month() > 3 && time.month() < 10)
     {

@@ -7,7 +7,7 @@
 
 #pragma region init function
 
-void LEDStripHandler::init(CRGB *leds, int numLEDs)
+void LEDStripHandler::init(CRGB *leds, const int numLEDs)
 {
     _leds = leds;
     _numLEDs = numLEDs;
@@ -17,7 +17,7 @@ void LEDStripHandler::init(CRGB *leds, int numLEDs)
 
 #pragma region constructors
 
-LEDStripHandler::LEDStripHandler(int brightness, int effect, int delay, CRGB color)
+LEDStripHandler::LEDStripHandler(const uint8_t brightness, const int effect, const long delay, const CRGB color)
 {
     FastLED.setMaxPowerInVoltsAndMilliamps(5, 1500);
     setBrightness(brightness);
@@ -30,7 +30,7 @@ LEDStripHandler::LEDStripHandler(int brightness, int effect, int delay, CRGB col
 
 #pragma region Setters and Getters
 
-void LEDStripHandler::setEffect(int effect)
+void LEDStripHandler::setEffect(const int effect)
 {
     //Check if new effect number is in the valid range
     if (effect >= 0 && effect <= MAX_EFFECT)
@@ -49,10 +49,10 @@ int LEDStripHandler::getMaxEffect()
     return MAX_EFFECT;
 }
 
-void LEDStripHandler::setBrightness(uint8_t brightness)
+void LEDStripHandler::setBrightness(const uint8_t brightness)
 {
     _brightness = brightness;
-    int newValue = (int)(MAX_BRIGHTNESS * ((float)brightness / 100));
+    uint8_t newValue = (uint8_t)(MAX_BRIGHTNESS * ((float)brightness / 100));
     FastLED.setBrightness(newValue);
 }
 
@@ -61,18 +61,18 @@ int LEDStripHandler::getBrightness()
     return _brightness;
 }
 
-void LEDStripHandler::setRGB(uint8_t red, uint8_t green, uint8_t blue)
+void LEDStripHandler::setRGB(const uint8_t red, const uint8_t green, const uint8_t blue)
 {
     CRGB color(red, green, blue);
     setRGB(color);
 }
 
-void LEDStripHandler::setRGB(CRGB newColor)
+void LEDStripHandler::setRGB(const CRGB newColor)
 {
     color = newColor;
 }
 
-void LEDStripHandler::setDelay(int delay)
+void LEDStripHandler::setDelay(const long delay)
 {
     _delay = delay;
 }

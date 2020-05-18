@@ -13,7 +13,7 @@ private:
 
 public:
     //Attributes
-    int dayinMonth[12] = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    const int dayinMonth[12] = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
     //Constructors
     /*
@@ -40,7 +40,7 @@ public:
     * twelveHour (bool) - Whether the time should be converted to twelve hour time or not.
     * return (DateTime) - The current time.
     */
-    DateTime getTime(bool twelveHour);
+    DateTime getTime(const bool twelveHour);
 
     /*
     * Format the given time according to daylight savings and 12 hour mode.
@@ -48,7 +48,7 @@ public:
     * twelveHour (bool) - Whether the time should be converted to twelve hour time or not.
     * return (DateTime) - The updated DateTime object.
     */
-    DateTime FormatTime(DateTime time, bool twelveHour);
+    DateTime FormatTime(DateTime time, const bool twelveHour);
 
     //Useful boolean functions
     /*
@@ -62,7 +62,7 @@ public:
     * Returns true if the time is currently in daylight savings otherwise returns false.
     * return (bool) - True if in daylight savings time.
     */
-    bool isDaylightSavings(DateTime time);
+    bool isDaylightSavings(const DateTime time);
 
     /*
     * Returns true if the time is currently in daylight savings otherwise returns false.

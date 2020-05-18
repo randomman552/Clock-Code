@@ -64,10 +64,6 @@ void BTNHandler::btnAction()
             int newDay = changeInt(curTime.day(), 1, _RTC.dayinMonth[newMonth - 1]);
             //Add one to the intial hour value if it is daylight savings time
             int newHour = curTime.hour();
-            if (_RTC.isDaylightSavings(curTime))
-            {
-                newHour++;
-            }
             newHour = changeInt(newHour, 1, 24);
             int newMinute = changeInt(curTime.minute(), 0, 59);
             DateTime newTime(newYear, newMonth, newDay, newHour, newMinute);
@@ -231,7 +227,7 @@ void BTNHandler::interruptAction()
     }
 }
 
-int BTNHandler::changeInt(int startValue, int min, int max)
+int BTNHandler::changeInt(const int startValue, int min, int max)
 {
     int newValue = startValue;
     while (true)

@@ -7,6 +7,6 @@
 * An implementation of delay, but using millis to make it non-blocking.
 * duration (long) - The period of time to delay for (in milliseconds).
 */
-extern void millisDelay(long duration);
+extern void millisDelay(const long duration);
 
 #endif

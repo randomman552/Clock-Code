@@ -12,7 +12,7 @@
 //Create our required objects
 RTCHandler RTC;
 SevenSegHandler SevenSeg(12, 11, 10, 0);
-AlarmController Alarm(BUZZER, 5);
+AlarmController Alarm(BUZZER);
 LEDStripHandler LEDStrip;
 BTNHandler BTNS(RTC, SevenSeg, Alarm, LEDStrip, BUZZER);
 
@@ -26,8 +26,8 @@ CRGB leds[NUM_LEDS];
 void setup()
 {
     //Initalise Serial, uncomment if debugging neded
-    Serial.begin(9600);
-    Serial.println("Hello there!");
+    //Serial.begin(9600);
+    //Serial.println("Hello there!");
 
     SevenSeg.print("Helo");
 
@@ -39,13 +39,13 @@ void setup()
     pinMode(BUZZER, OUTPUT);
 
     //Get values stored in EEPROM
-    uint8_t effect = EEPROM.read(EFFECT_STORE);
-    uint8_t red = EEPROM.read(RED_STORE);
-    uint8_t green = EEPROM.read(GREEN_STORE);
-    uint8_t blue = EEPROM.read(BLUE_STORE);
-    uint8_t brightness = EEPROM.read(BRIGHTNESS_STORE);
-    uint8_t alarmHour = EEPROM.read(ALARM_HOUR_STORE);
-    uint8_t alarmMinute = EEPROM.read(ALARM_MINUTE_STORE);
+    const uint8_t effect = EEPROM.read(EFFECT_STORE);
+    const uint8_t red = EEPROM.read(RED_STORE);
+    const uint8_t green = EEPROM.read(GREEN_STORE);
+    const uint8_t blue = EEPROM.read(BLUE_STORE);
+    const uint8_t brightness = EEPROM.read(BRIGHTNESS_STORE);
+    const uint8_t alarmHour = EEPROM.read(ALARM_HOUR_STORE);
+    const uint8_t alarmMinute = EEPROM.read(ALARM_MINUTE_STORE);
 
     //Apply saved settings
     SevenSeg.setBrightness(brightness);
