@@ -26,8 +26,8 @@ CRGB leds[NUM_LEDS];
 void setup()
 {
     //Initalise Serial, uncomment if debugging neded
-    //Serial.begin(9600);
-    //Serial.println("Hello there!");
+    Serial.begin(9600);
+    Serial.println("Hello there!");
 
     SevenSeg.print("Helo");
 
@@ -75,7 +75,7 @@ void loop()
     for (int i = 1; i <= 100; i++)
     {
         DateTime time24h = RTC.getTime();
-        DateTime time12h = RTC.FormatTime(time24h, true);
+        DateTime time12h = RTC.getTime(true);
 
         //Every 10th loop, we display the month and day
         if (i % 10 == 0)
@@ -93,12 +93,13 @@ void loop()
             SevenSeg.displayTime(time12h, "{hour}:{min}");
         }
 
+        BTNS.btnAction();
+
         //Show the LEDEffect
         LEDStrip.LEDfx();
 
         //Check the alarm.
         Alarm.checkAlarm(time24h.hour(), time24h.minute());
-        BTNS.btnAction();
     }
 
     //Only update the EEPROM every 100 loops.

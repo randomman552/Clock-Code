@@ -62,10 +62,13 @@ void BTNHandler::btnAction()
             int newYear = changeInt(curTime.year(), 2000, 2099);
             int newMonth = changeInt(curTime.month(), 1, 12);
             int newDay = changeInt(curTime.day(), 1, _RTC.dayinMonth[newMonth - 1]);
-            //Add one to the intial hour value, as the RTC stores it starting from 0.
-            int newHour = changeInt(curTime.hour() + 1, 1, 24);
-            //Take away the extra added hour
-            newHour--;
+            //Add one to the intial hour value if it is daylight savings time
+            int newHour = curTime.hour();
+            if (_RTC.isDaylightSavings(curTime))
+            {
+                newHour++;
+            }
+            newHour = changeInt(newHour, 1, 24);
             int newMinute = changeInt(curTime.minute(), 0, 59);
             DateTime newTime(newYear, newMonth, newDay, newHour, newMinute);
             _RTC.SetTime(newTime);

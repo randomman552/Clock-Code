@@ -14,6 +14,7 @@ private:
     int _brightness;
     int _effect;
     int _delay;
+    volatile bool _enabled = true;
 
 public:
     //Attributes
