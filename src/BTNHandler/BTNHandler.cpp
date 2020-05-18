@@ -7,6 +7,8 @@ BTNHandler::BTNHandler(RTCHandler &RTC, SevenSegHandler &SevenSeg, AlarmControll
       _LEDStrip(LEDStrip)
 
 {
+    _feedbackPin = feedbackPin;
+
     //Set pin modes
     pinMode(BTN1, INPUT);
     pinMode(BTN2, INPUT);
