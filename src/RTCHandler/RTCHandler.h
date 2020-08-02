@@ -5,6 +5,45 @@
 #include <Arduino.h>
 #include <RTClib.h>
 
+#pragma region PROGMEM month
+
+//Store months of year in PROGMEM
+const char monthofYear1[] PROGMEM = "january";
+const char monthofYear2[] PROGMEM = "february";
+const char monthofYear3[] PROGMEM = "march";
+const char monthofYear4[] PROGMEM = "april";
+const char monthofYear5[] PROGMEM = "may";
+const char monthofYear6[] PROGMEM = "june";
+const char monthofYear7[] PROGMEM = "july";
+const char monthofYear8[] PROGMEM = "august";
+const char monthofYear9[] PROGMEM = "september";
+const char monthofYear10[] PROGMEM = "october";
+const char monthofYear11[] PROGMEM = "november";
+const char monthofYear12[] PROGMEM = "december";
+
+//Create table to refer to the month strings
+const char *const monthofYear[] PROGMEM = {monthofYear1, monthofYear2, monthofYear3, monthofYear4,
+                                           monthofYear5, monthofYear6, monthofYear7, monthofYear8,
+                                           monthofYear9, monthofYear10, monthofYear11, monthofYear12};
+
+#pragma endregion
+
+#pragma region PROGMEM days of week
+//Store days of week in PROGMEM
+const char dayofWeek1[] PROGMEM = "sunday";
+const char dayofWeek2[] PROGMEM = "monday";
+const char dayofWeek3[] PROGMEM = "tuesday";
+const char dayofWeek4[] PROGMEM = "wednesday";
+const char dayofWeek5[] PROGMEM = "thursday";
+const char dayofWeek6[] PROGMEM = "friday";
+const char dayofWeek7[] PROGMEM = "saturday";
+
+//Create table to refer to the day strings
+const char *const dayofWeek[] PROGMEM = {dayofWeek1, dayofWeek2, dayofWeek3, dayofWeek5,
+                                         dayofWeek6, dayofWeek7};
+
+#pragma endregion
+
 //Class for handling the RTC, automatically handles 12 hour time and daylight savings time.
 class RTCHandler
 {

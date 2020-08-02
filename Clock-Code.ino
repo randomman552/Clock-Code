@@ -1,20 +1,20 @@
 #include "src/millisDelay.h"
 #include "src/RTCHandler/RTCHandler.h"
-#include "src/SevenSegHandler/SevenSegHandler.h"
+#include "src/SevenSeg/SevenSeg.h"
 #include "src/LEDStripController/LEDStripController.h"
 #include "src/EEPROMStore/EEPROMStore.h"
 #include "src/AlarmController/AlarmController.h"
-#include "src/BTNHandler/BTNHandler.h"
+//#include "src/BTNHandler/BTNHandler.h"
 
 //Buzzer Setup
 #define BUZZER 13
 
 //Create our required objects
 RTCHandler RTC;
-SevenSegHandler SevenSeg(12, 11, 10, 0);
+SevenSeg SevSeg(12, 11, 10, 1);
 AlarmController Alarm(BUZZER);
 LEDStripHandler LEDStrip;
-BTNHandler BTNS(RTC, SevenSeg, Alarm, LEDStrip, BUZZER);
+//BTNHandler BTNS(RTC, SevSeg, Alarm, LEDStrip, BUZZER);
 
 //LED Strip Setup
 #define DATA_PIN 9
@@ -26,10 +26,10 @@ CRGB leds[NUM_LEDS];
 void setup()
 {
     //Initalise Serial, uncomment if debugging neded
-    //Serial.begin(9600);
-    //Serial.println("Hello there!");
+    Serial.begin(9600);
+    Serial.println("Hello there!");
 
-    SevenSeg.print("Helo");
+    SevSeg.print("Helo");
 
     //Initalise LED Strip Controller
     FastLED.addLeds<LED_TYPE, DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS);
@@ -48,7 +48,7 @@ void setup()
     const uint8_t alarmMinute = EEPROM.read(ALARM_MINUTE_STORE);
 
     //Apply saved settings
-    SevenSeg.setBrightness(brightness);
+    SevSeg.setBrightness(brightness);
     LEDStrip.setBrightness(brightness);
     LEDStrip.setEffect(effect);
     LEDStrip.setDelay(2000);
@@ -59,7 +59,7 @@ void setup()
     millisDelay(1000);
 }
 
-//Attach the interrupt method
+/*Attach the interrupt method
 ISR(PCINT0_vect)
 {
     BTNS.interruptAction();
@@ -69,7 +69,7 @@ ISR(PCINT2_vect)
 {
     BTNS.interruptAction();
 }
-
+*/
 void loop()
 {
     for (int i = 1; i <= 100; i++)
@@ -80,20 +80,38 @@ void loop()
         //Every 10th loop, we display the month and day
         if (i % 10 == 0)
         {
-            SevenSeg.displayTime(time12h, "{day}:{month}");
+            char dayStr[3];
+            char monthStr[3];
+
+            char *values[] = {
+                formatInt(time12h.day(), dayStr, 2),
+                formatInt(time12h.month(), monthStr, 2)};
+
+            SevSeg.printf("{0}:{1}", values);
         }
         //On the next loop, display the year
         else if ((i % 10) - 1 == 0)
         {
-            SevenSeg.displayTime(time12h, "20{year}.");
+            char yearStr[3];
+
+            char *values[] = {formatInt(time12h.year(), yearStr, 2)};
+
+            SevSeg.printf("20{0}.", values);
         }
+        //Display time normally
         else
         {
-            //Display time normally
-            SevenSeg.displayTime(time12h, "{hour}:{min}");
+            char hourStr[3];
+            char minStr[3];
+
+            char *values[] = {
+                formatInt(time12h.hour(), hourStr, 2),
+                formatInt(time12h.minute(), minStr, 2)};
+
+            SevSeg.printf("{0}:{1}", values);
         }
 
-        BTNS.btnAction();
+        //BTNS.btnAction();
 
         //Show the LEDEffect
         LEDStrip.LEDfx();
