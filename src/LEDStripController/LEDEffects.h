@@ -2,7 +2,6 @@
 #define LEDEffects_h
 
 #include "LEDStripController.h"
-#include "../millisDelay.h"
 /*
 * Collection of lighting functions for the LED strip.
 */
@@ -56,7 +55,7 @@ namespace LEDEffects
     {
         fill_solid(leds, numLEDs, color);
         FastLED.show();
-        millisDelay(duration);
+        delay(duration);
     }
 
     /*
@@ -96,20 +95,20 @@ namespace LEDEffects
         {
             CRGB newColor(redShift * i, greenShift * i, blueShift * i);
             solidFill(newColor, leds, numLEDs);
-            millisDelay(inLoopDelay);
+            delay(inLoopDelay);
         }
 
-        millisDelay(betweenLoopDelay);
+        delay(betweenLoopDelay);
 
         //Fade the color out
         for (int i = 255; i >= 0; i--)
         {
             CRGB newColor(redShift * i, greenShift * i, blueShift * i);
             solidFill(newColor, leds, numLEDs);
-            millisDelay(inLoopDelay);
+            delay(inLoopDelay);
         }
 
-        millisDelay(betweenLoopDelay);
+        delay(betweenLoopDelay);
     }
 
     /*
@@ -130,19 +129,19 @@ namespace LEDEffects
         {
             const CHSV newColor(color.hue, color.saturation, valueShift * i);
             solidFill(newColor, leds, numLEDs);
-            millisDelay(inLoopDelay);
+            delay(inLoopDelay);
         }
 
-        millisDelay(betweenLoopDelay);
+        delay(betweenLoopDelay);
 
         for (int i = 255; i >= 0; i--)
         {
             CHSV newColor(color.hue, color.saturation, valueShift * i);
             solidFill(newColor, leds, numLEDs);
-            millisDelay(inLoopDelay);
+            delay(inLoopDelay);
         }
 
-        millisDelay(betweenLoopDelay);
+        delay(betweenLoopDelay);
     }
 
     /*
@@ -161,18 +160,18 @@ namespace LEDEffects
         for (int i = 0; i <= numLEDs; i++)
         {
             solidFill(color, leds, i);
-            millisDelay(inLoopDelay);
+            delay(inLoopDelay);
         }
 
-        millisDelay(betweenLoopDelay);
+        delay(betweenLoopDelay);
 
         for (int i = numLEDs; i >= 0; i--)
         {
             clear(leds + i, numLEDs - i, true);
-            millisDelay(inLoopDelay);
+            delay(inLoopDelay);
         }
 
-        millisDelay(betweenLoopDelay);
+        delay(betweenLoopDelay);
     }
 
     /*
@@ -191,13 +190,13 @@ namespace LEDEffects
         {
             solidFill(color, leds + i, 1);
             clear(leds + i, 1, false);
-            millisDelay(inLoopDelay);
+            delay(inLoopDelay);
         }
         for (int i = numLEDs; i >= 0; i--)
         {
             solidFill(color, leds + i, 1);
             clear(leds + i, 1, false);
-            millisDelay(inLoopDelay);
+            delay(inLoopDelay);
         }
     }
 
@@ -230,7 +229,7 @@ namespace LEDEffects
             fill_solid(leds + i, 1, CHSV(random8(), 255, 255));
         }
         FastLED.show();
-        millisDelay(duration);
+        delay(duration);
     }
 
     /*
@@ -284,7 +283,7 @@ namespace LEDEffects
         const int hueChange = 255 / numLEDs;
         fill_rainbow(leds, numLEDs, 0, hueChange);
         FastLED.show();
-        millisDelay(duration);
+        delay(duration);
     }
 
     /*
@@ -304,7 +303,7 @@ namespace LEDEffects
         {
             solidFill(CHSV(hue, 255, 255), leds, numLEDs);
             hue += 1;
-            millisDelay(inLoopDelay);
+            delay(inLoopDelay);
         }
     }
 
@@ -344,7 +343,7 @@ namespace LEDEffects
                 fill_solid(leds + j, 1, CHSV(hue, 255, 255));
             }
             FastLED.show();
-            millisDelay(inLoopDelay);
+            delay(inLoopDelay);
         }
     }
 
@@ -365,19 +364,19 @@ namespace LEDEffects
         {
             fill_rainbow(leds, i, 0, hueChange);
             FastLED.show();
-            millisDelay(inLoopDelay);
+            delay(inLoopDelay);
         }
 
-        millisDelay(betweenLoopDelay);
+        delay(betweenLoopDelay);
 
         for (int i = numLEDs; i >= 0; i--)
         {
             clear(leds + i, numLEDs - i, false);
             FastLED.show();
-            millisDelay(inLoopDelay);
+            delay(inLoopDelay);
         }
 
-        millisDelay(betweenLoopDelay);
+        delay(betweenLoopDelay);
     }
 
 #pragma endregion

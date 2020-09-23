@@ -136,7 +136,7 @@ void LEDStripHandler::LEDfx()
     else
     {
         LEDEffects::clear(_leds, _numLEDs, true);
-        millisDelay(_delay);
+        delay(_delay);
     }
 }
 

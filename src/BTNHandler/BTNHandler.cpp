@@ -1,6 +1,6 @@
 #include "BTNHandler.h"
 
-BTNHandler::BTNHandler(RTCHandler &RTC, SevenSegHandler &SevenSeg, AlarmController &Alarm, LEDStripHandler &LEDStrip, const int feedbackPin)
+BTNHandler::BTNHandler(RTCHandler &RTC, SevenSeg &SevenSeg, AlarmController &Alarm, LEDStripHandler &LEDStrip, const int feedbackPin)
     : _RTC(RTC),
       _SevenSeg(SevenSeg),
       _Alarm(Alarm),
@@ -289,6 +289,6 @@ int BTNHandler::changeInt(const int startValue, int min, int max)
             }
         }
         //Have a delay in the loop to limit the rate of change.
-        millisDelay(100);
+        delay(100);
     }
 }

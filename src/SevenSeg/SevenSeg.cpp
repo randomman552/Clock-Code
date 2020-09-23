@@ -58,7 +58,7 @@ void SevenSeg::setBrightness(const int brightness)
 
 void SevenSeg::printf(const char format[], const char *values[])
 {
-    char toPrint[getDeviceCount() * 9];
+    char toPrint[getDeviceCount() * 8 + 1] = {0};
 
     //Find the position of a { and the corresponding }, the value between is the formatting info.
     for (int i = 0; i < strlen(format); i++)

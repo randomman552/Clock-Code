@@ -1,13 +1,11 @@
-//TODO: Move this all into a CPP file and make a class.
 //This is currently very messy.
 
 #ifndef BTNHandler_h
 #define BTNHandler_h
 
 #include <Arduino.h>
-#include "../millisDelay.h"
 #include "../RTCHandler/RTCHandler.h"
-#include "../SevenSegHandler/SevenSegHandler.h"
+#include "../SevenSeg/SevenSeg.h"
 #include "../LEDStripController/LEDStripController.h"
 #include "../AlarmController/AlarmController.h"
 #include "../EEPROMStore/EEPROMStore.h"
@@ -25,7 +23,7 @@ class BTNHandler
 {
 private:
     RTCHandler &_RTC;
-    SevenSegHandler &_SevenSeg;
+    SevenSeg &_SevenSeg;
     AlarmController &_Alarm;
     LEDStripHandler &_LEDStrip;
     int _feedbackPin;
@@ -33,7 +31,7 @@ private:
     volatile bool _lowPowerMode = false;
 
 public:
-    BTNHandler(RTCHandler &RTC, SevenSegHandler &SevenSeg, AlarmController &Alarm, LEDStripHandler &LEDStrip, const int feedbackPin);
+    BTNHandler(RTCHandler &RTC, SevenSeg &SevenSeg, AlarmController &Alarm, LEDStripHandler &LEDStrip, const int feedbackPin);
 
     /*
     * This function takes the button states set by the interuptAction interupt, and then acts on them accordingly.

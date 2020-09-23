@@ -1,8 +1,8 @@
 {
-    "programmer": "AVR ISP",
-    "board": "arduino:avr:nano",
-    "configuration": "cpu=atmega328old",
-    "sketch": "Clock-Code.ino",
-    "output": "../build",
-    "port": "COM4"
+	"programmer": "AVR ISP",
+	"board": "arduino:avr:nano",
+	"configuration": "cpu=atmega328old",
+	"sketch": "Clock-Code.ino",
+	"output": "../build",
+	"port": "COM3"
 }

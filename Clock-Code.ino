@@ -1,10 +1,9 @@
-#include "src/millisDelay.h"
 #include "src/RTCHandler/RTCHandler.h"
 #include "src/SevenSeg/SevenSeg.h"
 #include "src/LEDStripController/LEDStripController.h"
 #include "src/EEPROMStore/EEPROMStore.h"
 #include "src/AlarmController/AlarmController.h"
-//#include "src/BTNHandler/BTNHandler.h"
+#include "src/BTNHandler/BTNHandler.h"
 
 //Buzzer Setup
 #define BUZZER 13
@@ -14,7 +13,7 @@ RTCHandler RTC;
 SevenSeg SevSeg(12, 11, 10, 1);
 AlarmController Alarm(BUZZER);
 LEDStripHandler LEDStrip;
-//BTNHandler BTNS(RTC, SevSeg, Alarm, LEDStrip, BUZZER);
+BTNHandler BTNS(RTC, SevSeg, Alarm, LEDStrip, BUZZER);
 
 //LED Strip Setup
 #define DATA_PIN 9
@@ -56,10 +55,10 @@ void setup()
     Alarm.setAlarmTime(alarmHour, alarmMinute);
 
     //Have a delay so the greeting message can be seen.
-    millisDelay(1000);
+    delay(1000);
 }
 
-/*Attach the interrupt method
+//Attach the interrupt method
 ISR(PCINT0_vect)
 {
     BTNS.interruptAction();
@@ -69,7 +68,7 @@ ISR(PCINT2_vect)
 {
     BTNS.interruptAction();
 }
-*/
+
 void loop()
 {
     for (int i = 1; i <= 100; i++)
@@ -111,7 +110,7 @@ void loop()
             SevSeg.printf("{0}:{1}", values);
         }
 
-        //BTNS.btnAction();
+        BTNS.btnAction();
 
         //Show the LEDEffect
         LEDStrip.LEDfx();
