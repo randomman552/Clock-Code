@@ -83,12 +83,6 @@ public:
     void printf(const char format[], const char *values[]);
 
 #pragma endregion
-
-#pragma region Setters
-
-    void setBrightness(const int brightness);
-
-#pragma endregion
 };
 
 /**

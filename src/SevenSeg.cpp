@@ -50,12 +50,6 @@ void SevenSeg::print(const char toPrint[], const bool doClear)
     print(toPrint);
 }
 
-void SevenSeg::setBrightness(const int brightness)
-{
-    _brightness = (int)(MAX_BRIGHTNESS * ((float)brightness / 100));
-    setIntensity(0, _brightness);
-}
-
 void SevenSeg::printf(const char format[], const char *values[])
 {
     char toPrint[getDeviceCount() * 8 + 1] = {0};
