@@ -1,6 +1,8 @@
 # Clock Code
-This is an improved version of the code I wrote for an infinity mirror clock several years ago.\
-The clock I am working on uses a DS3231 RTC for timekeeping, a MAX7219 and a 4 digit 7 segment display to display the time, and an LED strip compatible with the FastLED library.
+![In operation](.github/preview.gif "In operation")
+
+This is an improved version of the code I wrote for an infinity mirror clock several years ago (see above picture).\
+Uses a DS3231 RTC for timekeeping, a MAX7219 and a 4 digit 7 segment display to display the time, and an LED strip compatible with the FastLED library.
 
 External librarys used:
 - [LED Strip Controller](https://github.com/randomman552/Led-Strip-Controller) - For the LED Strip (made by me)
