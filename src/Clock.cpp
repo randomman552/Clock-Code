@@ -57,10 +57,6 @@ void Clock::onInterrupt()
         }
         delayMicroseconds(1000);
     }
-
-    // Block until buttons are released
-    //while (digitalRead(_btnPins[0]) || digitalRead(_btnPins[1]) || digitalRead(_btnPins[2]) || digitalRead(_btnPins[3])){}
-    
 }
 
 void Clock::onPressed()
@@ -191,7 +187,6 @@ int Clock::changeValue(const int startVal, int min, int max)
     // As such, we do not need to continuously poll the pins for their state.
     while (true)
     {
-        if (buttonPressed()) playFeedback();
         if (arrayEqual(_btns, valUp, 4))
         {
             val += 1;
@@ -204,10 +199,12 @@ int Clock::changeValue(const int startVal, int min, int max)
         }
         else if (arrayEqual(_btns, confirm, 4))
         {
+            playFeedback();
             return val;
         }
         else if (arrayEqual(_btns, cancel, 4))
         {
+            playFeedback();
             return startVal;
         }
         
