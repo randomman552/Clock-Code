@@ -1,5 +1,5 @@
 # Clock Code
-![In operation](.github/preview.gif "In operation")
+<img src=".github/preview.gif" style="width: 100%"/>
 
 This is an improved version of the code I wrote for an infinity mirror clock several years ago (see above picture).\
 Uses a DS3231 RTC for timekeeping, a MAX7219 and a 4 digit 7 segment display to display the time, and an LED strip compatible with the FastLED library.
