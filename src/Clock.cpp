@@ -167,7 +167,7 @@ void Clock::onPressed()
         // Adjust fps (animation speed)
         _sevenSeg.print("fps", true);
         delay(1000);
-        _ledStrip.setFps(changeValue(_ledStrip.getFps(), 1, 255));
+        _ledStrip.setFps(changeValue(_ledStrip.getFps(), 1, 256));
     }
 
     clearButtons();
@@ -187,35 +187,47 @@ int Clock::changeValue(const int startVal, int min, int max)
     // Clear the buttons to prevent any key-presses from carrying into this method.
     clearButtons();
 
+    // Time to wait between button pushes
+    float pushDelay = (1000.0f/30.0f);
+    // Used to facilitate non-blocking delays
+    unsigned long waitTo = millis() + pushDelay;
+
     // This method continues to utilise the pin change interrupts.
     // As such, we do not need to continuously poll the pins for their state.
     while (true)
     {
-        if (arrayEqual(_btns, valUp, 4))
+        if (millis() > waitTo)
         {
-            val += 1;
-            if (val >= max) val = min;
+            if (arrayEqual(_btns, valUp, 4))
+            {
+                val += 1;
+                if (val >= max) val = min;
+            }
+            else if (arrayEqual(_btns, valDown, 4))
+            {
+                val -= 1;
+                if (val < min) val = max - 1;
+            }
+            else if (arrayEqual(_btns, confirm, 4))
+            {
+                playFeedback();
+                return val;
+            }
+            else if (arrayEqual(_btns, cancel, 4))
+            {
+                playFeedback();
+                return startVal;
+            }
+            
+            // Display the value as we change it
+            _sevenSeg.print(itoa(val, strBuffer, 10), true);
+
+            // Non-blocking delay for 50ms
+            waitTo = millis() + pushDelay;
+        } else {
+            // Continue to show led effect as normal
+            _ledStrip.mainloop();
         }
-        else if (arrayEqual(_btns, valDown, 4))
-        {
-            val -= 1;
-            if (val < min) val = max - 1;
-        }
-        else if (arrayEqual(_btns, confirm, 4))
-        {
-            playFeedback();
-            return val;
-        }
-        else if (arrayEqual(_btns, cancel, 4))
-        {
-            playFeedback();
-            return startVal;
-        }
-        
-        // Display the value as we change it
-        _sevenSeg.print(itoa(val, strBuffer, 10), true);
-        // Continue to show led effect as normal
-        _ledStrip.mainloop();
     }
     return val;
 }
