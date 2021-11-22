@@ -152,10 +152,9 @@ void Clock::onPressed()
         delay(1000);
         color.g = changeValue(color.g, 0, 256);
 
-        _sevenSeg.print("blue", true);
+        _sevenSeg.print("blue");
         delay(1000);
         color.b = changeValue(color.b, 0, 256);
-
         _ledStrip.setColor(color);
 
         // Adjust brightness
@@ -164,6 +163,11 @@ void Clock::onPressed()
         const int brightness = changeValue(_ledStrip.getBrightness(), 0, 256);
         _ledStrip.setBrightness(brightness);
         _sevenSeg.setIntensity(0, ((brightness)/256.0F)*15.0F);
+
+        // Adjust fps (animation speed)
+        _sevenSeg.print("fps", true);
+        delay(1000);
+        _ledStrip.setFps(changeValue(_ledStrip.getFps(), 1, 255));
     }
 
     clearButtons();
