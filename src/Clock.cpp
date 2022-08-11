@@ -94,7 +94,7 @@ void Clock::onPressed()
     else if (arrayEqual(_btns, nextEffect, 4))
     {
         uint8_t curEffect = _ledStrip.getEffect();
-        int maxEffect = (sizeof(LEDStripController::lFuncs) / sizeof(LEDStripController::lFuncs[0]));
+        int maxEffect = _ledStrip.effects.size();
         _ledStrip.setEffect((curEffect + 1) % maxEffect);
         _sevenSeg.print("led+");
         delay(1000);
@@ -102,7 +102,7 @@ void Clock::onPressed()
     else if (arrayEqual(_btns, prevEffect, 4))
     {
         uint8_t curEffect = _ledStrip.getEffect();
-        int maxEffect = (sizeof(LEDStripController::lFuncs) / sizeof(LEDStripController::lFuncs[0]));
+        int maxEffect = _ledStrip.effects.size();
         _ledStrip.setEffect((curEffect - 1) % maxEffect);
         _sevenSeg.print("led-");
         delay(1000);
@@ -167,7 +167,7 @@ void Clock::onPressed()
         // Adjust fps (animation speed)
         _sevenSeg.print("fps", true);
         delay(1000);
-        _ledStrip.setFps(changeValue(_ledStrip.getFps(), 1, 256));
+        _ledStrip.setFPS(changeValue(_ledStrip.getFPS(), 1, 256));
     }
 
     clearButtons();
