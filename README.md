@@ -8,5 +8,6 @@ External librarys used:
 - [LED Strip Controller](https://github.com/randomman552/Led-Strip-Controller) - For the LED Strip (made by me)
     - [FastLED](https://www.arduino.cc/reference/en/libraries/fastled/)
     - [SerialCommands](https://www.arduino.cc/reference/en/libraries/serialcommands/)
+    - [LinkedList](https://www.arduino.cc/reference/en/libraries/linkedlist/)
 - [LedControl](https://www.arduino.cc/reference/en/libraries/ledcontrol/) - For the 7 segment display
 - [RTClib](https://www.arduino.cc/reference/en/libraries/rtclib/) - For control of the RTC
