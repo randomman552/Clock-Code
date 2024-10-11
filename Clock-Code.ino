@@ -1,7 +1,7 @@
 #include <LEDStripController.h>
 #include "src/Clock.h"
 
-//LED Strip Setup
+// LED Strip Setup
 #define DATA_PIN 9
 #define LED_TYPE WS2812B
 #define COLOR_ORDER GRB
@@ -9,7 +9,6 @@
 CRGB leds[NUM_LEDS];
 
 Clock clock;
-
 
 #pragma region Attach interrupt methods
 
@@ -25,7 +24,6 @@ ISR(PCINT2_vect)
 
 #pragma endregion
 
-
 void setup()
 {
     // LED strip setup
@@ -35,10 +33,9 @@ void setup()
 
     clock.begin();
 
-    //Have a delay so the greeting message can be seen.
+    // Have a delay so the greeting message can be seen.
     delay(1000);
 }
-
 
 void loop()
 {

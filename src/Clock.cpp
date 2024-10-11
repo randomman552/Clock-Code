@@ -2,26 +2,26 @@
 
 #pragma region Constructors/destructors
 
-Clock::Clock():
-    _rtc(),
-    _ledStrip(),
-    _sevenSeg(12, 11, 10, 1)
+Clock::Clock() : _rtc(),
+                 _ledStrip(),
+                 _sevenSeg(12, 11, 10, 1)
 {
-    
 }
 
 Clock::~Clock() { disableInterrupts(); }
 
-void Clock::begin() {
+void Clock::begin()
+{
     // Seven seg setup
-    _sevenSeg.setIntensity(0, (_ledStrip.getBrightness()/256.0F)*15.0F);
+    _sevenSeg.setIntensity(0, (_ledStrip.getBrightness() / 256.0F) * 15.0F);
     _sevenSeg.print("Helo");
 
     // RTC setup
     _rtc.begin();
 
     // Setup pins for input
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 4; i++)
+    {
         pinMode(_btnPins[i], INPUT);
     }
 
@@ -50,9 +50,11 @@ void Clock::onInterrupt()
 
     // Give the user a grace period
     // It is almost impossible for the user to press multiple buttons at exactly the same time
-    for (int _ = 0; _ < 100; _++) {
+    for (int _ = 0; _ < 100; _++)
+    {
         // Update button states
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++)
+        {
             _btns[i] = digitalRead(_btnPins[i]);
         }
         delayMicroseconds(1000);
@@ -87,8 +89,10 @@ void Clock::onPressed()
     else if (arrayEqual(_btns, toggle12Hour, 4))
     {
         _12Hour = !_12Hour;
-        if (_12Hour) _sevenSeg.print("12.hr");
-        else _sevenSeg.print("24.hr");
+        if (_12Hour)
+            _sevenSeg.print("12.hr");
+        else
+            _sevenSeg.print("24.hr");
         delay(1000);
     }
     else if (arrayEqual(_btns, nextEffect, 4))
@@ -133,7 +137,7 @@ void Clock::onPressed()
         _sevenSeg.print("min", true);
         delay(1000);
         const int minute = changeValue(time.minute(), 0, 60);
-        
+
         DateTime newTime(year, month, day, hour, minute, 0);
         _rtc.adjust(newTime);
     }
@@ -162,7 +166,7 @@ void Clock::onPressed()
         delay(1000);
         const int brightness = changeValue(_ledStrip.getBrightness(), 0, 256);
         _ledStrip.setBrightness(brightness);
-        _sevenSeg.setIntensity(0, ((brightness)/256.0F)*15.0F);
+        _sevenSeg.setIntensity(0, ((brightness) / 256.0F) * 15.0F);
 
         // Adjust fps (animation speed)
         _sevenSeg.print("fps", true);
@@ -188,7 +192,7 @@ int Clock::changeValue(const int startVal, int min, int max)
     clearButtons();
 
     // Time to wait between button pushes
-    float pushDelay = (1000.0f/30.0f);
+    float pushDelay = (1000.0f / 30.0f);
     // Used to facilitate non-blocking delays
     unsigned long waitTo = millis() + pushDelay;
 
@@ -201,12 +205,14 @@ int Clock::changeValue(const int startVal, int min, int max)
             if (arrayEqual(_btns, valUp, 4))
             {
                 val += 1;
-                if (val >= max) val = min;
+                if (val >= max)
+                    val = min;
             }
             else if (arrayEqual(_btns, valDown, 4))
             {
                 val -= 1;
-                if (val < min) val = max - 1;
+                if (val < min)
+                    val = max - 1;
             }
             else if (arrayEqual(_btns, confirm, 4))
             {
@@ -218,13 +224,15 @@ int Clock::changeValue(const int startVal, int min, int max)
                 playFeedback();
                 return startVal;
             }
-            
+
             // Display the value as we change it
             _sevenSeg.print(itoa(val, strBuffer, 10), true);
 
             // Non-blocking delay for 50ms
             waitTo = millis() + pushDelay;
-        } else {
+        }
+        else
+        {
             // Continue to show led effect as normal
             _ledStrip.mainloop();
         }
@@ -242,8 +250,10 @@ void Clock::clearButtons()
 
 bool Clock::buttonPressed()
 {
-    for (int i = 0; i < 4; i++) {
-        if (_btns[i]) {
+    for (int i = 0; i < 4; i++)
+    {
+        if (_btns[i])
+        {
             return true;
         }
     }
@@ -271,7 +281,6 @@ void Clock::displayTime()
         _time = _rtc.now();
     }
 
-    
     char hourStr[3];
     char minStr[3];
 
@@ -280,8 +289,7 @@ void Clock::displayTime()
 
     char *values[] = {
         formatInt(hour, hourStr, 2),
-        formatInt(minute, minStr, 2)
-    };
+        formatInt(minute, minStr, 2)};
 
     _sevenSeg.printf("{0}:{1}", values);
 
